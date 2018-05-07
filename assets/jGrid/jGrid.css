@@ -1,0 +1,157 @@
+/******************* GENERAL *******************/
+[data-jgrid] {
+    overflow: auto;
+    position: relative;
+}
+
+[data-jgrid] button[onclick] {
+    cursor: pointer;
+}
+
+
+/******************* LIST STYLE *******************/
+[data-jgrid] table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+[data-jgrid] tr > * {
+    text-align: center;
+}
+
+[data-jgrid] > div:not(#jgrid-action-bar) {
+    border: solid 1px #ccc;
+    border-radius: 3px;
+    padding: 3px;
+}
+
+[data-jgrid] td {
+    border-bottom: solid 1px #ccc;
+}
+
+[data-jgrid] th {
+    border-bottom: solid 2px #ccc;
+}
+
+[data-jgrid] th,[data-jgrid] td {
+    padding: 10px 5px;
+}
+
+[data-jgrid] tr:last-child td {
+    border: none;
+}
+
+[data-jgrid] table a {
+    color:  #000;
+}
+
+[data-jgrid] th:first-child,
+[data-jgrid] td:first-child {
+    padding-left: 10px;
+}
+
+[data-jgrid] th:last-child,
+[data-jgrid] td:last-child {
+    padding-right: 10px;
+}
+
+
+/******************* ICONS *******************/
+.jgrid-icon {
+    height: 10px;
+    width: 10px;
+    display: inline-block;
+    opacity: .6;
+    margin-left: 5px;
+}
+
+.jgrid-icon-asc {
+    background: url(asc.png) 0 0 no-repeat;
+}
+
+.jgrid-icon-desc {
+    background: url(desc.png) 0 0 no-repeat;
+}
+
+.jgrid-icon-unsorted {
+    background: url(unsorted.png) 0 0 no-repeat;
+}
+
+
+/******************* PAGINATION *******************/
+#jgrid-action-bar {
+    text-align: center;
+    margin: 10px 0px;
+}
+
+#jgrid-action-bar button,
+#jgrid-action-bar label {
+    margin: 0px 1px;
+    border: solid 1px #ccc;
+    background-color: #fff;
+    border-radius: 3px;
+}
+
+#jgrid-action-bar label {
+    padding: 5px 10px;
+    font-weight: bold;
+}
+
+#jgrid-action-bar button {
+    padding: 5px 10px;
+}
+
+
+/******************* LODING ANIMATE *******************/
+.jgrid-ajax-loading {
+    background-color: rgba(255, 255, 255, 0.5);
+    border: none;
+}
+
+.jgrid-ajax-loading label {
+    margin-bottom: 0px;
+}
+
+.jgrid-ajax-loading span {
+    background: url(ajax-loader.gif) 0 0 no-repeat;
+    height: 32px;
+    width: 32px;
+    display: inline-block;
+}
+
+.jgrid-ajax-loading {
+    text-align: center;
+    top: 0px;
+}
+
+.jgrid-ajax-loading > div {
+    display: inline-block;
+    padding: 13px 5px;
+    background-color: #fff;
+    border: solid 1px #ccc;
+    width: 100px;
+    border-radius: 4px;
+}
+
+[data-jgrid] .jgrid-ajax-loading {
+    position: absolute;
+}
+
+.jgrid-ajax-loading {
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    background-color: rgba(255, 255, 255, 0.51);
+    padding-top: 15px !important;
+    border: none !important;
+}
+
+.jgrid-ajax-loading div * {
+    display: block;
+    margin: 0px auto;
+}
+
+.jgrid-ajax-loading div *:first-child {
+    margin-bottom: 15px;
+}
