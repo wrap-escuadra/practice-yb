@@ -29,3 +29,5 @@ user_guide_src/cilexer/pycilexer.egg-info/*
 *.sublime-project
 session/*
 application/logs/*
+application/config/database.php
+2 application/config/config.php
