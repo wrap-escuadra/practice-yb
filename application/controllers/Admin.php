@@ -272,36 +272,36 @@ class Admin extends MY_Controller{
 	}
 
 	private function _add_school_validation(){
-		$config = array(
-			  array(
-		            'field' => 'school_name',
-		            'label' =>  'school name',
-		            'rules' => 'required'
-		        ),
-		        array(
-		            'field' => 'school_abbr',
-		            'label' =>  'school abbreviation',
-		            'rules' => 'required'
-		        ),
+		// $config = array(
+		// 	  array(
+		//             'field' => 'school_name',
+		//             'label' =>  'school name',
+		//             'rules' => 'required'
+		//         ),
+		//         array(
+		//             'field' => 'school_abbr',
+		//             'label' =>  'school abbreviation',
+		//             'rules' => 'required'
+		//         ),
 		       
-		        array(
-		            'field' => 'school_address',
-		            'label' =>  'school address',
-		            'rules' => 'required'
-		        ),
-		        array(
-		            'field' => 'school_city',
-		            'label' =>  'city/province',
-		            'rules' => 'required'
-		        ),
-		        array(
-		            'field' => 'country',
-		            'label' =>  'school country',
-		            'rules' => 'required'
-		        ),
-			);
-		
-		$this->form_validation->set_rules($config);
+		//         array(
+		//             'field' => 'school_address',
+		//             'label' =>  'school address',
+		//             'rules' => 'required'
+		//         ),
+		//         array(
+		//             'field' => 'school_city',
+		//             'label' =>  'city/province',
+		//             'rules' => 'required'
+		//         ),
+		//         array(
+		//             'field' => 'country',
+		//             'label' =>  'school country',
+		//             'rules' => 'required'
+		//         ),
+		// 	);
+		$this->load->config('form_validation');
+		$this->form_validation->set_rules($this->config->item('school_add'));
 		return $this->form_validation->run();
 	}
 
