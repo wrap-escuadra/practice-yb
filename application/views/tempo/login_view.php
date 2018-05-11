@@ -41,10 +41,10 @@
 
                     <?php echo $this->session->flashdata('pop'); ?>
                     <p>
-                         <input class="form-control" type="text" value="<?=set_value('username');?>" name="username">
+                         <input class="form-control" type="text" value="<?=set_value('username');?>" name="username" placeholder="username...">
                     </p>
                     <p>  
-                         <input class="form-control" type="password" name="password">
+                         <input class="form-control" type="password" name="password" placeholder="password...">
                     </p>
                     <p>
                          <button class="btn btn-default pull-right" type="submit" name="submit" >Log In</button>

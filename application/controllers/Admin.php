@@ -207,7 +207,7 @@ class Admin extends MY_Controller{
 
 		if($this->input->post())
 		{
-			debug($this->input->post());
+			// debug($this->input->post());
 			if($this->_add_school_validation() != FALSE)
 			{
 				$this->_add_school($this->input->post());
@@ -496,7 +496,7 @@ class Admin extends MY_Controller{
 			array(
 				'field' => 'country_code',
 				'label' => 'country Code',
-				'rules' => 'numeric|is_unique[yb_countries.country_code]'
+				'rules' => 'numeric|max_length[5]|is_unique[yb_countries.country_code]'
 			),
 		];
 
