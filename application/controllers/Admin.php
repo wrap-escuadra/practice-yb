@@ -197,20 +197,18 @@ class Admin extends MY_Controller{
 	}
 	public function school_add()
 	{
-
-		$this->data = [
-			'page_title' =>  $this->data['page_title']." : New Schools",
+		$this->data['page_title'] .= " Xxxx";
+		$this->data += [
 			'pageCSS' => array('bootstrap-select'),
 			'customJS' => array('admin','bootstrap-select'),
 			'countries' =>  $this->admin_model->get_countries()->result_array()
 		];
-
 		if($this->input->post())
 		{
 			// debug($this->input->post());
-			if($this->_add_school_validation() != FALSE)
+			if($this->check_input('school_add') != FALSE)
 			{
-				$this->_add_school($this->input->post());
+				$this->admin_model->add_school($this->input->post());
 				// $school_id = $this->db->insert_id();
 				// $this->_upload_school_images($school_id);
 				$msg = 'School successfully added';
@@ -226,20 +224,7 @@ class Admin extends MY_Controller{
 		$this->load->view('includes/footer');
 	}
 
-	private function _add_school($post)
-	{
-		$data = array(
-			'school_name' =>  $post['school_name'],
-			'school_abbr' =>  strtoupper($post['school_abbr']),
-			'school_address' =>  $post['school_address'],
-			'school_city' =>  $post['school_city'],
-			'school_region' =>  $post['school_region'],
-			'school_country' =>  $post['school_country'],
-			'school_description' =>  $post['school_description'],
-
-		);
-		return $this->db->insert('mt_schools',input_prep($data));
-	}
+	
 
 	public function activation($school_id){
 		$school_id = idecode($school_id);

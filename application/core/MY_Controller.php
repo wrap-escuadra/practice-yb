@@ -28,6 +28,14 @@ abstract class My_Controller extends CI_Controller
    		if($die)die();
    	}
 
+   	public function check_input($config_name,$file_name='form_validation') 
+   	{
+
+   		$this->load->config($file_name); //file is found application/config 
+   		if(empty($this->config->item($config_name) ) ) die('config name not definded');
+		$this->form_validation->set_rules($this->config->item($config_name));
+		return $this->form_validation->run();	
+   	}
     public function msg_flash($msg,$type='info'){
         // $var = '<div  class="alert alert-'.$type.' fade in " >'.
         //         $msg.'<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a></div>';
