@@ -23,6 +23,11 @@ class Profile extends MY_Controller{
 
 	}
 
+	public function school_admin()
+    {
+
+    }
+
 	public function add()
 	{	
 		$this->load->library('form_validation');

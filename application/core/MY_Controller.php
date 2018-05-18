@@ -1,7 +1,7 @@
 <?php (defined('BASEPATH')) OR exit('No direct script access allowed');
 
 
-abstract class My_Controller extends CI_Controller
+ class My_Controller extends CI_Controller
 {
     /**
 	 * Class Constructor
@@ -11,8 +11,8 @@ abstract class My_Controller extends CI_Controller
 	function __construct()
 	{
 		parent::__construct();
-		// die( md5('ybpassword'));
-		$this->data['page_title'] = "Yearbook+";
+
+		$this->data['page_title'] = "YB+";
 		$this->must_logged_in();
 		$this->load->helper('my_helper');
 		// echo '<pre>';

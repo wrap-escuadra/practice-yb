@@ -98,16 +98,24 @@
 
       <ul class="nav navbar-nav navbar-right" >
         <li><a href="<?=site_url('tempo/logout');?>" style="color:yellow" >-Tempo Logout-</a></li> 
-        <?php if($this->session->userdata('logged_in') === TRUE ){ ?>
-          <li><a href="<?=site_url('user/logout');?>" >Log Out</a></li>
-        <?php }else{ ?>
-          <li><a href="<?=site_url('user/login');?>" >Log In</a></li>
-        <?php } ?>
-        
         <li><a href="contact.php" >Contact</a></li>
         <li><a href="faq.php" >Help</a></li>
         <li><a href="about.php" >About</a></li>
         <li><a href="#" ><span class="glyphicon glyphicon-search"></span> Search</a></li>
+         <?php if($this->session->userdata('logged_in') === TRUE ){ ?>
+          <li>
+              <a class=" dropdown-toggle pointer"  data-toggle="dropdown"><?=$this->session->userdata['username'];?> <span class="badge"><span class="glyphicon glyphicon-user"></span></span>
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu">
+                <li><a href="#">My Profile</a></li>
+                <li><a href="#">My School</a></li>
+                <li><a href="<?=site_url('user/logout');?>" ><img src="<?=base_url('assets/images/system/sidepanel/button-logout.svg');?>" width="20" height="20">  Log Out</a></li>
+              </ul>
+          </li>
+        <?php }else{ ?>
+          <li><a href="<?=site_url('user/login');?>" >Log In</a></li>
+        <?php } ?>
         
         
       </ul>

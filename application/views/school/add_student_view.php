@@ -29,12 +29,12 @@
 					<h1 class="">Student Info</h1>
 					
 					<div class=" input-div">
-						<label>Last Name <span class="text-danger small">(required)</span></label> 
-						<input class="form-control alpha input-sm" name="last_name" value="<?=set_value('last_name');?>" maxlength="50" required  />
+						<label>Last Name <span class="text-danger small">(required)</span></label>
+						<input class="form-control alpha input-sm" name="last_name" value="<?=set_value('last_name');?>" maxlength="50"   />
 					</div>
 					<div class=" input-div">
 						<label>First Name <span class="text-danger small">(required)</span></label>
-						<input class="form-control alpha input-sm" name="first_name" value="<?=set_value('first_name');?>"  maxlength="50" required>
+						<input class="form-control alpha input-sm" name="first_name" value="<?=set_value('first_name');?>"  maxlength="50" >
 					</div>
 					<div class=" input-div">
 						<label>Middle Name </label> 
@@ -42,12 +42,12 @@
 					</div>
 					<div class=" input-div">
 						<label>Birth Date <span class="text-danger small">(required)</span></label> 
-						<input class="form-control text-right datepicker nopress input-sm" value="<?=set_value('birth_date');?>"   name="birth_date" required>
+						<input class="form-control text-right datepicker nopress input-sm" value="<?=set_value('birth_date');?>"   name="birth_date" >
 					</div>
 					<div class=" input-div">
 						<label>Batch Year <span class="text-danger small">(required)</span></label> 
 						<!-- <input class="form-control text-right number input-sm" type="number" min="1950" value="<?=(set_value('batch_year') != "") ? set_value('batch_year') : date('Y');?>"  name="batch_year" maxlength="50"> -->
-						<select class="selectpicker form-control input-sm" data-live-search="true" title="--select batch--" name="batch_year" required>
+						<select class="selectpicker form-control input-sm" data-live-search="true" title="--select batch--" name="batch_year" >
 							<?php foreach($years as $yr){  ?>
 								<option value="<?=$yr['id'];?>" <?=set_select('batch_year',$yr['id']); ?> >
 									<?=$yr['school_year']; ?>
@@ -55,15 +55,15 @@
 							<?php  } //end foreach($years as $yr){?>
 						</select>
 						<div class="text-center" style="padding-top:10px">
-							<a href="javascript:void(0)" id="addCourse">Add new course </a>
+							<a href="javascript:void(0)" id="addYear">Add new school year </a>
 						</div>
 
 					</div>
 
 					<div class=" input-div">
 						<label>Course <span class="text-danger small">(required)</span></label> 
-						<!-- <select class="form-control input-sm" name="course_id" required> -->
-						<select class="selectpicker form-control input-sm" data-live-search="true" title="--select course--" name="course_id" required>
+						<!-- <select class="form-control input-sm" name="course_id" > -->
+						<select class="selectpicker form-control input-sm" data-live-search="true" title="--select course--" name="course_id" >
 						
 							<option value="">-Select Course-</option>
 							<?php foreach($courses as $course){ ?>
@@ -77,7 +77,7 @@
 					</div>	
 	
 					<div class=" input-div">
-						<label>Email Address <span class="text-danger small">(required)</span> </label> 
+                            <label>Email Address <span class="text-danger small">(required)</span> </label>
 						<div class="input-group">
 						    <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
 						    <input  type="email" class="form-control input-sm" name="email"  value="<?=set_value('email');?>">
@@ -87,23 +87,27 @@
 
 				</div>
 			</div>
-		
 
+            <p>
 		<div class="col-md-5 ">
 			<div class="">
 				<h1>Achievements & Awards</h1>
 				<div class="awards">
 					<?php 
 					if(@set_value()){
-					foreach(set_value('awards') as $aw){ ?>
-						<!-- <input class="form-control" type="text" value="<?=$aw;?>" name="awards[]" maxlength="100"> -->
+					foreach(set_value('awards') as $aw){
+					    if($aw != '' ):
+					    ?>
+
 						<div class="input-group">
 						    <span class="input-group-addon"><i class="glyphicon glyphicon-education"></i></span>
 						    <input  type="text" class="form-control" value="<?=$aw;?>" name="awards[]" placeholder="" maxlength="100">
 					  	</div>
-					<?php } } ?>
+					<?php endif; } } ?>
 					<!-- <input class="form-control" type="text" name="awards[]" maxlength="100"> -->
+
 					<div class="input-group">
+
 					    <span class="input-group-addon"><i class="glyphicon glyphicon-education"></i></span>
 					    <input  type="text" class="form-control" name="awards[]" placeholder="" maxlength="100">
 				  	</div>
