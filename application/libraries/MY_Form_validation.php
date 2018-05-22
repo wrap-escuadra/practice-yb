@@ -25,6 +25,14 @@ class MY_Form_validation extends CI_Form_validation
     	$q =  $ci->db->get('mt_courses');
     	return ($q->num_rows() > 0) ?  FALSE : TRUE;
     }
+
+    function unique_sch_year(){
+        $ci =get_instance();
+        $schoolid_and_year = $ci->session->userdata('school_id').$ci->input->post('new_batch_year');
+        $ci->db->where('schoolid_and_year',$schoolid_and_year);
+        $q = $ci->db->get('mt_yearbooks');
+        return ($q->num_rows() > 0) ?  FALSE : TRUE;
+    }
    
 }
 

@@ -16,7 +16,7 @@
 		$this->must_logged_in();
 		$this->load->helper('my_helper');
 		// echo '<pre>';
-		// var_dump( $this->session->all_userdata() );
+//		 debug( $this->session->all_userdata(),true );
 		// echo '</pre>';
 	}
 
@@ -34,7 +34,29 @@
    		$this->load->config($file_name); //file is found application/config 
    		if(empty($this->config->item($config_name) ) ) die('config name not definded');
 		$this->form_validation->set_rules($this->config->item($config_name));
-		return $this->form_validation->run();	
+
+        if($this->input->is_ajax_request() ){
+            if($this->form_validation->run()){
+                return TRUE;
+            }else{
+                $input_error = array();
+
+                foreach($this->config->item($config_name) as $cfg){
+                    $input_error[] = array(
+                        'error' => form_error($cfg['field']),
+                        'type' => $cfg['type'],
+                        'field' => $cfg['field']
+                    );
+                }
+                $data['success'] = FALSE;
+                $data['errors'] = $input_error;
+                die(json_encode($data));
+
+            }
+        }else{
+            return $this->form_validation->run();
+        }
+
    	}
     public function msg_flash($msg,$type='info'){
         // $var = '<div  class="alert alert-'.$type.' fade in " >'.

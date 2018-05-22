@@ -19,8 +19,8 @@
     <!-- added for custom font -->
     <link href="https://fonts.googleapis.com/css?family=Work+Sans:300" rel="stylesheet"> 
 
-    <link REL=StyleSheet HREF="<?=base_url('assets/css/yb_style.css');?>" TYPE="text/css" MEDIA=screen>
-    <link REL=StyleSheet HREF="<?=base_url('assets/css/style.css');?>" TYPE="text/css" MEDIA=screen>
+    <link REL=StyleSheet HREF="<?=base_url('assets/css/yb_style.css?').time();?>" TYPE="text/css" MEDIA=screen>
+    <link REL=StyleSheet HREF="<?=base_url('assets/css/style.css?').time();?>" TYPE="text/css" MEDIA=screen>
 
 
 

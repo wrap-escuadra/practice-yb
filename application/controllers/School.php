@@ -110,10 +110,12 @@ class School extends MY_Controller{
 			'pageCSS' => array('bootstrap-select'),
 			'customJS' => array('school','bootstrap-select'),
 			'years' => $this->school_model->sch_years()->result_array(),
+            'course_form' => $this->load->view('school/course_form_view',$this->data,TRUE),
+            'batch_form' => $this->load->view('school/form_batch',$this->data,TRUE)
 		];
 		// debug($this->data['years']);die();
 
-		$this->data['course_form'] = $this->load->view('school/course_form_view',$this->data,TRUE);
+
 
 		$this->load->view('includes/head',$this->data);
 		$this->load->view('school/add_student_view');
@@ -226,11 +228,10 @@ class School extends MY_Controller{
 		}else{
 			$data['message'] = validation_errors();
 		}
-		
+
 		$data['success'] = $result;
 		echo json_encode($data);
 
-		
 	}
 
 	private function _course_add_validation(){
@@ -257,6 +258,25 @@ class School extends MY_Controller{
 		return $this->form_validation->run();
 	
 	}
+
+
+	public function schoolyear_add()
+    {
+
+        if($this->input->post()){
+            if($this->check_input('schoolyear_add')){
+                $this->school_model->yearbookAdd($this->input->post('new_batch_year'));
+                $data = [
+                    'success' => TRUE,
+                    'message' => 'School year successfully added.'
+                ];
+
+                echo json_encode($data);
+                die();
+            }
+
+        }
+    }
 
 
 

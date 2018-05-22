@@ -11,12 +11,26 @@ function myLoader(action)
     $('#overlay').fadeIn(300);
   }else if(action == 'hide')
   {
-    $('#loader').fadeOut(300);
+    $('#loader').fadeOut(500);
     $('#overlay').fadeOut(300);
   }
 }
 
-$(function(){
+//accepts object ( errors)
+function showErrors(data){
+console.log(data);
+    $('.input-error').remove();
+    $.each(data, function(i,item){
+        elem = data[i].type+'[name='+ data[i].field+ ']';
+        if(data[i].error != '' ){
+            $(data[i].error).insertBefore($(elem));
+            $(elem).addClass('red-border');
+        }else{
+            $(elem).removeClass('red-border');
+        }
+    });
+}
+// $(function(){
 	
 
 
@@ -79,4 +93,4 @@ $(function(){
     // });
     
 
-});
+// });

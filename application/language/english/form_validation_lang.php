@@ -40,4 +40,5 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $lang['alpha_space']		= 'The {field} field may only contain alphabetical characters.';
 $lang['unique_course_desc']		= 'The {field} already exists.';
 $lang['unique_course_code']		= 'The {field} already exists.';
+$lang['unique_sch_year'] = 'The {field} already exists.';
 

@@ -100,7 +100,7 @@ class School_model extends CI_Model
 
         $this->db->insert('mt_students',input_prep($data));
         $student_id = $this->db->insert_id();
-        $this->_yearbook_add($school_id,$post['batch_year']);
+//        $this->_yearbook_add($school_id,$post['batch_year']);
 
         $this->_upload_head_image($student_id);
         foreach($post['awards'] as $award){
@@ -229,8 +229,10 @@ class School_model extends CI_Model
 
     }
 
-    private function _yearbook_add($school_id,$year)
+    public function yearbookAdd($year,$school_id=null)
     {
+        $school_id = is_null($school_id) ? $this->session->userdata('school_id') : $school_id;
+
         $this->db->where('schoolid_and_year',$school_id.$year);
         $q = $this->db->get('mt_yearbooks');
         if($q->num_rows() < 1){
@@ -243,6 +245,8 @@ class School_model extends CI_Model
             $this->db->insert('mt_yearbooks',$data);
         }
     }
+
+
 
     
 }

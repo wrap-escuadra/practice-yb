@@ -1,4 +1,7 @@
-<?php 
+<?php
+$config['error_prefix']= '<p class="input-error">';
+$config['error_sufix']=  '</p>';
+
 $CI =get_instance();
 
 $config['school_add'] = array(
@@ -67,6 +70,16 @@ $config['student_add'] = array(
         'label' =>  'email',
         'rules' =>$valid_email
     ),
+);
+
+$config['schoolyear_add'] = array(
+    array(
+        'field' => 'new_batch_year',
+        'label' =>  'batch year',
+        'rules' => 'required|exact_length[4]|greater_than[1960]|unique_sch_year',
+        'type' => 'input'
+    ),
+
 );
 	  	
 	
