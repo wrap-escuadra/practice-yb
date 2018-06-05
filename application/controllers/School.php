@@ -43,7 +43,7 @@ class School extends MY_Controller{
 		        'breakpoints' => 'xs sm',
 		    ),
 		    array (
-		        'name' => 'batch_year',
+		        'name' => 'school_year',
 		        'title' => 'BATCH',
 		        // 'visible' => false
 		    ),
@@ -61,7 +61,19 @@ class School extends MY_Controller{
 	    		'sortable' => false,
 	    		'style' => array('text-align' => 'center')
 	    		
+    		),
+    		array(
+	    		'name' => 'default_pw',
+	    		'title'=>'PASSWORD',
+	    		// 'visible' => false,
+	    		'filterable' => false,
+	    		'sortable' => false,
+	    		// 'style' => array('text-align' => 'center'),
+	    		'breakpoints' => 'xs sm md lg xl'
+ 	    		
     		)
+    		
+
 		);
 
 		header('Content-Type: application/json');
@@ -81,10 +93,14 @@ class School extends MY_Controller{
 		$q = $this->db->query($sql);
 		$ctr = 0;
 		$data = array();
+
 		foreach($q->result_array() as $res)
 		{
+			// if()
+			// die($res['default_password']);
 			$data[$ctr] = $res;
-			$data[$ctr]['edit_link'] = '<a href="#" ><span class="glyphicon glyphicon-remove"></span></a> &nbsp; <a href="'.site_url('students/edit/'.iencode($res['profile_id']) ).'"><span class="glyphicon glyphicon-edit"></span></a>'; 
+			$data[$ctr]['edit_link'] = '<a href="#" ><span class="glyphicon glyphicon-remove"></span></a> &nbsp; <a href="'.site_url('student/edit/'.iencode($res['profile_id']) ).'"><span class="glyphicon glyphicon-edit"></span></a>'; 
+			$data[$ctr]['default_pw'] = $res['default_password'] != '' ? $res['default_password'] : '<a href="#">reset password</a>';
 			$ctr++;
 		}
 		header('Content-Type: application/json');
@@ -266,9 +282,11 @@ class School extends MY_Controller{
         if($this->input->post()){
             if($this->check_input('schoolyear_add')){
                 $this->school_model->yearbookAdd($this->input->post('new_batch_year'));
+                $batch = $this->school_model->sch_years();
                 $data = [
                     'success' => TRUE,
-                    'message' => 'School year successfully added.'
+                    'message' => 'School year successfully added.',
+                    'batches' => $batch->result_array(),
                 ];
 
                 echo json_encode($data);

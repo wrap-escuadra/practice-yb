@@ -7,6 +7,7 @@ class Admin_model extends CI_Model
     {
         $sql = "SELECT * FROM vw_faculties WHERE school_id = '{$school_id}' ";
         $q = $this->db->query($sql);
+        // die($sql);
         return $q;
     }
 

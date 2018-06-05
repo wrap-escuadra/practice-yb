@@ -51,7 +51,7 @@ function idecode($encrypted_text){
     $key = hash( 'sha256', $secret_key );
     $iv = substr( hash( 'sha256', $secret_iv ), 0, 16 );
 
-    $output = openssl_decrypt( base64_decode( $string ), $encrypt_method, $key, 0, $iv );
+    $output = openssl_decrypt( base64_decode( $encrypted_text ), $encrypt_method, $key, 0, $iv );
     return $output;
 }
 function school_status($status=null){
@@ -66,7 +66,7 @@ function school_status($status=null){
     }
 }
 
-function debug($data,$die=FALSE){
+function debug($data,$die=TRUE){
 	echo '<pre>';
 	var_dump($data);
 	echo '</pre>';
@@ -82,4 +82,14 @@ function set_popmsg($msg)
     $ci->session->set_flashdata('pop',$msg);
 }
 
+ function createDefaultPassword(){
+    $length =6;
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $charactersLength = strlen($characters);
+    $randomString = '';
+    for ($i = 0; $i < $length; $i++) {
+        $randomString .= $characters[rand(0, $charactersLength - 1)];
+    }
+    return $randomString;
+}
  ?>

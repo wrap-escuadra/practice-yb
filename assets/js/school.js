@@ -30,6 +30,20 @@ $(function(){
 		// $('select[name=country]')
 	};
 
+
+	function ddBatch(yearObject){
+		var data = yearObject;
+		// console.log(data);
+		var courseOptions = '';
+		$('select[name=batch_year]').html('');
+		$.each(data,function(index,item){
+			courseOptions += '<option value="'+ data[index].id +'">'+ data[index].school_year+'</option>';
+		});
+		// console.log(courseOptions);
+		$('select[name=batch_year]').html(courseOptions).selectpicker('refresh');;
+		// $('select[name=country]')
+	};
+
 	$('#course-form').submit(function(e){
 		e.preventDefault();
         $('input[type=submit]').attr('disabled','true').addClass('btn-disabled');
@@ -78,6 +92,7 @@ $(function(){
                 	$('.form-msg').html(response.message);
                 	$('.input-error').remove();
                 	$('.red-border').removeClass('red-border');
+                	ddBatch(response.batches);
                     // $('#batch-form .form-msg').html(response.message);
 
                     setTimeout(function(){

@@ -41,4 +41,6 @@ $lang['alpha_space']		= 'The {field} field may only contain alphabetical charact
 $lang['unique_course_desc']		= 'The {field} already exists.';
 $lang['unique_course_code']		= 'The {field} already exists.';
 $lang['unique_sch_year'] = 'The {field} already exists.';
+$lang['form_validation_is_unique'] 		= 'The {field} is already taken. Please provide a unique {field}.';
+$lang['edit_unique_email'] = 'The {field} is already taken. Please provide a unique {field}.';
 

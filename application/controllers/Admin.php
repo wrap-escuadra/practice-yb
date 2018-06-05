@@ -5,7 +5,7 @@ class Admin extends MY_Controller{
 	function __construct(){
 		parent:: __construct();
 		$this->load->model('admin_model');
-
+		$this->load->model('school_model');
 		$this->form_validation->set_error_delimiters('<p class=" text-danger"><i class="glyphicon glyphicon-remove-sign hide"></i>  ', '</p>');
 		if($this->session->userdata('user_role') != R_SYSADMIN )
 		{
@@ -339,7 +339,7 @@ class Admin extends MY_Controller{
 	{	
 		if($this->input->post() AND $this->_validate_new_school_admin() !== FALSE )
 		{	
-			$this->_add_school_admin($this->input->post());
+			$this->school_model->add_school_admin($this->input->post());
 		}
 			$dec_school_id = idecode($school_id);
 			$q = $this->db->where('id',$dec_school_id)->get('vw_schools');
@@ -401,42 +401,7 @@ class Admin extends MY_Controller{
 	{	
 		
 		
-		$data = array(
-			'username' => $post['username'],
-			'password' => md5($post['username']),
-			'user_role' => R_SCHOOLADMIN
-		);
-
-		if($this->db->insert('mt_users', input_prep($data) ))
-		{
-
-			$school_id = $post['school_id'];
-			$school_id = idecode($school_id);
-			$user_id = $this->db->insert_id();
-			$data = array(
-				'school_id' => $school_id,
-				'first_name' => $post['first_name'],
-				'last_name' => $post['last_name'],
-				'middle_name' => $post['middle_name'],
-				'email' =>  $post['email'],
-				'mobile' => $post['mobile'],
-				'landline' => $post['landline'],
-				'user_id' => $user_id
- 
-			);
-			// var_dump($this->db->insert('mt_faculties',input_prep($data)) );die();
-			if( $this->db->insert('mt_faculties',input_prep($data)) === TRUE  )
-			{
-				$msg = '<span class="text-bold text-info">New school admin \''.$post['username'].'\' successfully added.</span>';
-				$this->session->set_flashdata('pop',$msg);
-// die(site_url( 'admin/schools/'.iencode($post['school_id']) ) );
-				redirect( site_url( 'admin/schools/'.$post['school_id'] ) );
-			}else{
-				$this->db->where('user_id',$user_id);
-				$this->db->delete('mt_faculties');
-
-			}
-		}
+		
 	}
 
 

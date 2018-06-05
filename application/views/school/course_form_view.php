@@ -20,3 +20,4 @@
 		<input class=" btn-lg btn-primary" name="course_add" type="submit" value="submit">
 	</div>
 </form>
+

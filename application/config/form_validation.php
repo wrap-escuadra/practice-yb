@@ -34,7 +34,7 @@ $config['school_add'] = array(
 );
 
 if($CI->input->post('email') != ''){
-    $valid_email = 'valid_email' ;
+    $valid_email = 'valid_email|is_unique[mt_students.email]' ;
 }else{
     $valid_email = "";
 }
@@ -81,6 +81,48 @@ $config['schoolyear_add'] = array(
     ),
 
 );
+
+$config['student_edit'] = array(
+    array(
+        'field' => 'first_name',
+        'label' =>  'first name',
+        'rules' => 'required|max_length[50]'
+    ),
+    array(
+        'field' => 'last_name',
+        'label' =>  'last name',
+        'rules' => 'required|max_length[50]'
+    ),
+    array(
+        'field' => 'middle_name',
+        'label' =>  'middle name',
+        'rules' => 'max_length[50]'
+    ),
+
+    array(
+        'field' => 'birth_date',
+        'label' =>  'birth date',
+        'rules' => 'required'
+    ),
+    array(
+        'field' => 'course_id',
+        'label' =>  'course',
+        'rules' => 'required'
+    ),
+    array(
+        'field' => 'email',
+        'label' =>  'email',
+        'rules' => 'valid_email|edit_unique_email'
+    ),
+    array(
+        'field' => 'batch_year',
+        'label' =>  'batch year',
+        'rules' => 'required|numeric|max_length[4]'
+    ),
+    
+
+);
+
 	  	
 	
 

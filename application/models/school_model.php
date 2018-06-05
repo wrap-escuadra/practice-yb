@@ -64,7 +64,11 @@ class School_model extends CI_Model
 
     function sch_years()
     {
-        $this->db->where('school_id',$this->session->userdata('school_id'))->order_by('school_year', 'DESC');
+        if($this->session->userdata('user_role') == R_SCHOOLADMIN){
+            $this->db->where('school_id',$this->session->userdata('school_id'));
+        }
+        
+        $this->db->order_by('school_year', 'DESC');
         return $this->db->get('mt_yearbooks');
     }
 
@@ -83,7 +87,7 @@ class School_model extends CI_Model
 
 
         $user_id = $this->add_yb_users($username,R_STUDENT);
-
+        // $school_year = $this->_getYear($post['batch_year'])['school_year'];
         $data = array(
             'school_id' => $school_id,//hardcoded for testing only
             'batch_year' => $post['batch_year'],
@@ -119,16 +123,7 @@ class School_model extends CI_Model
 
     }
 
-    private function createDefaultPassword(){
-        $length =6;
-        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        $charactersLength = strlen($characters);
-        $randomString = '';
-        for ($i = 0; $i < $length; $i++) {
-            $randomString .= $characters[rand(0, $charactersLength - 1)];
-        }
-        return $randomString;
-    }
+    
     private function create_username($first_name,$last_name)
     {
         $fullname = trim($first_name).trim($last_name);
@@ -155,9 +150,12 @@ class School_model extends CI_Model
 
     }
 
+
+
+
     private function add_yb_users($username,$role)
     {
-        $password = $this->createDefaultPassword();
+        $password = createDefaultPassword();
 
         $data = array(
             'username' => $username,
@@ -245,6 +243,52 @@ class School_model extends CI_Model
             $this->db->insert('mt_yearbooks',$data);
         }
     }
+
+    public function add_school_admin()
+    {
+        $data = array(
+            'username' => $post['username'],
+            'password' => md5($post['username']),
+            'user_role' => R_SCHOOLADMIN,
+            'default_password' => createDefaultPassword(),
+        );
+
+        if($this->db->insert('mt_users', input_prep($data) ))
+        {
+
+            $school_id = $post['school_id'];
+            $school_id = idecode($school_id);
+            $user_id = $this->db->insert_id();
+            $data = array(
+                'school_id' => $school_id,
+                'first_name' => $post['first_name'],
+                'last_name' => $post['last_name'],
+                'middle_name' => $post['middle_name'],
+                'email' =>  $post['email'],
+                'mobile' => $post['mobile'],
+                'landline' => $post['landline'],
+                'user_id' => $user_id
+ 
+            );
+            // var_dump($this->db->insert('mt_faculties',input_prep($data)) );die();
+            if( $this->db->insert('mt_faculties',input_prep($data)) === TRUE  )
+            {
+                $msg = '<span class="text-bold text-info">New school admin \''.$post['username'].'\' successfully added.</span>';
+                $this->session->set_flashdata('pop',$msg);
+// die(site_url( 'admin/schools/'.iencode($post['school_id']) ) );
+                redirect( site_url( 'admin/schools/'.$post['school_id'] ) );
+            }else{
+                $this->db->where('user_id',$user_id);
+                $this->db->delete('mt_faculties');
+
+            }
+        }
+    }
+
+
+    // private function _getYear($year_id){
+    //   return   $this->db->where('id',$year_id)->get('mt_yearbooks')->row_array();
+    // }
 
 
 

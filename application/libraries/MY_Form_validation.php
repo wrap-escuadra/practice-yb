@@ -33,6 +33,17 @@ class MY_Form_validation extends CI_Form_validation
         $q = $ci->db->get('mt_yearbooks');
         return ($q->num_rows() > 0) ?  FALSE : TRUE;
     }
+
+    function edit_unique_email($email)
+    {
+        $ci = get_instance();
+        $id = idecode($ci->input->post('profile_id'));
+        $sql = "SELECT * FROM mt_students WHERE profile_id <> '{$id}' AND email = '{$email}'";
+        // die($sql);
+        $q = $ci->db->query($sql);
+
+        return ($q->num_rows() > 0 ) ? FALSE : TRUE;
+    }
    
 }
 
