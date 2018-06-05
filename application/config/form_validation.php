@@ -123,6 +123,12 @@ $config['student_edit'] = array(
 
 );
 
+$config['award_edit'] = array(
+    'field' => 'awards[]',
+    'label' => 'awards',
+    'rules' =>  'alpha_numeric_spaces|max_length[100]'
+);
+
 	  	
 	
 
