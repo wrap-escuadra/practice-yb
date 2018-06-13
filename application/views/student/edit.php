@@ -30,8 +30,8 @@
 	<div class="row">
 		<div class="col-xs-12">
 			<ul class="breadcrumb small">
-				<li><a href="">Home</a></li>
-				<li><a href="">Students</a></li>
+				<li><a href="<?=site_url();?>">Home</a></li>
+				<li><a href="<?=site_url('school/students');?>">Students</a></li>
 				<!-- <li><a href="javascript:void(0)" class="active">Edit</a></li> -->
 				<li>Edit</li>
 			</ul>
