@@ -53,7 +53,7 @@ class Student_model extends CI_Model
             'course_id' => $post['course_id']
         );
         return $this->db->where('profile_id',$profile_id)
-                ->update('mt_students',input_pre($data));
+                ->update('mt_students',input_prep($data));
         // debug($this->db->last_query());
     }
 

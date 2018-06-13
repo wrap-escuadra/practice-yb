@@ -96,10 +96,8 @@ class School extends MY_Controller{
 
 		foreach($q->result_array() as $res)
 		{
-			// if()
-			// die($res['default_password']);
 			$data[$ctr] = $res;
-			$data[$ctr]['edit_link'] = '<a href="#" ><span class="glyphicon glyphicon-remove"></span></a> &nbsp; <a href="'.site_url('student/edit/'.iencode($res['profile_id']) ).'"><span class="glyphicon glyphicon-edit"></span></a>'; 
+			$data[$ctr]['edit_link'] = '<a href="'.site_url('student/remove/'.iencode($res['profile_id'])).'" onclick="return confirm(\'Delete this user?\')"><span class="glyphicon glyphicon-remove"></span></a> &nbsp; <a href="'.site_url('student/edit/'.iencode($res['profile_id']) ).'"><span class="glyphicon glyphicon-edit"></span></a>';
 			$data[$ctr]['default_pw'] = $res['default_password'] != '' ? $res['default_password'] : '<a href="#">reset password</a>';
 			$ctr++;
 		}

@@ -126,7 +126,7 @@
 
 </nav>
 </div>
-<div style="height:50px;"></div>
+<div style="height:20px;"></div>
 
 <?php $this->load->view('includes/aside'); ?>
 <div class="wrapper" style=" margin:0; padding:0;">

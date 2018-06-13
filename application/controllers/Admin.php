@@ -445,7 +445,7 @@ class Admin extends MY_Controller{
 			),
 			array(
 				'field' => 'country_code',
-				'label' => 'country Code',
+				'label' => 'country code',
 				'rules' => 'numeric|max_length[5]|is_unique[yb_countries.country_code]'
 			),
 		];

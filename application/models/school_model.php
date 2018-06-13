@@ -177,7 +177,7 @@ class School_model extends CI_Model
             $config = array(
                 // 'upload_path' => base_url('assets/_uploads/'),
                 'upload_path' => './assets/_uploads/profile_headers/',
-                'allowed_types' => 'gif|jpg|png|jpeg',
+                'allowed_types' => 'png|gif|jpg|png|jpeg|JPG|PNG|GIF|JPEG',
                 'max_size' => 2000,
                 'overwrite'  => FALSE,
                 'remove_spaces' =>  TRUE,
@@ -187,7 +187,7 @@ class School_model extends CI_Model
             // $num_of_files = count($_FILES) ;
             // debug($this->input->post('userfile') );
             // debug($_FILES ,true);
-            $uploading =true;
+            $uploading = true;
             foreach($_FILES as $key=>$value) :
                 for($s=0; $s<=$count-1; $s++) {
 
@@ -196,28 +196,33 @@ class School_model extends CI_Model
                     $_FILES['userfile']['tmp_name'] = $value['tmp_name'][$s];
                     $_FILES['userfile']['error']  = $value['error'][$s];
                     $_FILES['userfile']['size']  = $value['size'][$s];
-                    echo $value['size'][$s];
-                    debug($_FILES['userfile']);
+//
                     if($this->upload->do_upload()){
+
                         $pic_data = $this->upload->data();
                         $data = [
                             'student_id' => $student_id,
                             'img' => $pic_data['file_name'],
                         ];
                         $this->db->insert('lu_yb_images',$data);
+//                        echo $this->db->last_query();
                         // die($this->db->insert_id());
                     }else{
 
                         $uploading = false;
-                        $this->db->where('user_id',$student_id);
-                        $this->db->limit(1);
-                        $this->db->delete('mt_students');
-                        $this->db->where('user_id',$student_id);
-                        $this->db->delete('mt_users');
+//                       continue;
+
+//                        $this->db->where('user_id',$student_id);
+//                        $this->db->limit(1);
+//                        $this->db->delete('mt_students');
+//                        $this->db->where('user_id',$student_id);
+//                        $this->db->delete('mt_users');
 
                     }
+
                 }
             endforeach;
+
             // if(!$uploading){
             // 	echo $this->session->set_flashdata('pop',$this->upload->display_errors());
             // 	// redirect(base_url())1

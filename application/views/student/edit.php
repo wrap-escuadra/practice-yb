@@ -28,7 +28,14 @@
 
 <div class="container" >
 	<div class="row">
-		<?=$this->session->flashdata('pop');?>
+		<div class="col-xs-12">
+			<ul class="breadcrumb small">
+				<li><a href="">Home</a></li>
+				<li><a href="">Students</a></li>
+				<!-- <li><a href="javascript:void(0)" class="active">Edit</a></li> -->
+				<li>Edit</li>
+			</ul>
+		</div>
 		<?php foreach($pictures as $pic): ?>
 		<div class="col-xs-4 " >
 			<div class="thumbnail yb-img">

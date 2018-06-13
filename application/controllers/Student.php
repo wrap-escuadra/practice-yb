@@ -52,6 +52,40 @@ class Student extends MY_Controller{
 
 	}
 
+	public function remove($profile_id)
+    {
+        $id = idecode($profile_id);
+        $query = $this->db->where('profile_id',$id)->get('mt_students');
+
+        if($query->num_rows() > 0){
+            $user_id = $query->row()->user_id;
+
+            $this->db->trans_begin();
+
+            $this->db->where('profile_id',$id)
+                    ->delete('mt_students');
+            echo $this->db->last_query();
+            $this->db->where('user_id',$user_id)
+                    ->delete('mt_users');
+            echo $this->db->last_query();
+
+
+
+            if ($this->db->trans_status() === FALSE) {
+                $this->db->trans_rollback();
+            }else{
+                $msg = "Student successfully deleted.";
+                $this->msg_flash($msg);
+                $this->db->trans_commit();
+            }
+        }
+
+        redirect($_SERVER['HTTP_REFERER']);
+
+
+
+    }
+
 	
 
 
