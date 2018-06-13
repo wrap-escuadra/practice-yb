@@ -221,6 +221,21 @@
 </div>
 <!--end batch modal -->
 
+<!--image modal -->
+<div id="imageModal" class="form-modal modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <div class="row">
+                    <?php echo $batch_form;?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--end image modal -->
+
 <script type="text/javascript">
 	$(function(){
 		
