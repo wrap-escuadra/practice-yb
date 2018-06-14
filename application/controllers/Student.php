@@ -8,7 +8,72 @@ class Student extends MY_Controller{
 		$this->load->model('student_model');
 
 	}
+	public function test(){
+// debug($this->input->post());
+		if($this->input->post()){
+			$this->img_upload();
+		}
 
+		$this->load->view('includes/head',$this->data);
+		$this->load->view('student/frm_image');
+		$this->load->view('includes/footer');
+	}
+
+	public function img_upload()
+	{
+		// debug($_FILE);
+
+		$config['upload_path']          = './assets/_uploads/profile_headers';
+        $config['allowed_types']        = 'jpeg|jpg|png';
+        $config['max_size']             = 2000;
+
+        $this->load->library('upload', $config);
+
+        if ( ! $this->upload->do_upload('userfile'))
+        {
+               $msg = $this->upload->display_errors();
+               $data['success'] = false;
+               $data['message'] = '<span class="text-danger">'.$msg.'</span>';
+              
+        }
+        else
+        {
+            $data = array('upload_data' => $this->upload->data());
+            $msg = "Image successfully uploaded. ";
+            $profile_id = idecode($this->input->post('profile_id'));
+            $img_id = idecode($this->input->post('img_id'));
+            $this->update_img($profile_id,$img_id);
+            $this->msg_flash($msg);
+            $data['success'] = true;
+           	$data['message'] = $msg;
+           	
+            
+        }
+
+        header('Content-Type: application/json');
+        echo json_encode($data);
+	}
+
+	public function update_img($profile_id,$img_id){
+		//delete previous image
+		$this->db->where('id',$img_id)->delete('lu_yb_images');
+		//save new data
+		return $this->save_image_data($profile_id,$img_id);
+	}
+
+	public function save_image_data($profile_id=null,$img_id=null){
+		$pic_data = $this->upload->data();
+		
+        $data = [
+            'student_id' => $profile_id,
+            'img' => $pic_data['file_name'],
+        ];
+
+
+        return $this->db->insert('lu_yb_images',$data);
+	}
+
+	
 
 	public function edit($profile_id)
 	{
@@ -44,6 +109,7 @@ class Student extends MY_Controller{
             'batch_form' => $this->load->view('school/form_batch',$this->data,TRUE),
             'years' => $this->school_model->sch_years()->result_array(),
             'courses' => $this->school_model->sch_courses()->result_array(),
+            'frm_image' => $this->load->view('student/frm_image',$this->data,TRUE),
 		];
 		
 		$this->load->view('includes/head',$this->data);
@@ -83,6 +149,26 @@ class Student extends MY_Controller{
         redirect($_SERVER['HTTP_REFERER']);
 
 
+
+    }
+
+    public function imgRemove(){
+    	if(!$this->input->is_ajax_request()) return false;
+    	$img_id = idecode($this->input->post('img_id'));
+    	$query = $this->db->where('id',$img_id)->get('lu_yb_images');
+    	$image_name = $query->row_array()['img'];
+    	$path = './assets/_uploads/profile_headers/';
+    	unlink($path.$image_name);
+    	if( $this->db->where('id',$img_id)->delete('lu_yb_images')){
+    		$data['success'] = true;
+    		$msg = "Image successfully deleted";
+    	}else{
+    		$data['success'] = false;
+    		$msg = "Soemthing went wrong please try again";
+    	}
+
+    	header('Content-Type: application/json');
+    	echo json_encode($data);
 
     }
 

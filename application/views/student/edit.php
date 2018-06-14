@@ -36,12 +36,18 @@
 				<li>Edit</li>
 			</ul>
 		</div>
+
 		<?php foreach($pictures as $pic): ?>
 		<div class="col-xs-4 " >
 			<div class="thumbnail yb-img">
 				<img   class=" img-responsive img-round" src="<?=base_url('assets/_uploads/profile_headers/'.$pic['img']);?>">
-				<div class="btn btn-default picEdit">
-					<span class="glyphicon glyphicon-pencil"></span>
+				<div class="btn btn-default picEdit" data-toggle="modal" data-target="#imageModal" 
+					data-img-id="<?=iencode($pic['id']);?>" 
+					data-prof-id="<?=iencode($student['profile_id'])?>">
+					<span class="glyphicon glyphicon-pencil" ></span>
+				</div>
+				<div class="btn btn-default picRemove" onclick="return confirm('Are you sure?')" data-img-id="<?=iencode($pic['id']);?>" >
+					<span class="glyphicon glyphicon-remove"></span>
 				</div>
 			</div>
 		</div>
@@ -50,7 +56,8 @@
 		<div class="col-xs-4">
 			<div class="thumbnail yb-img">
 				<img   class=" img-responsive img-round" src="<?=base_url('assets/_uploads/profile_headers/no-image.jpg');?>">
-				<div class="btn btn-default picEdit">
+				<div class="btn btn-default picEdit" data-toggle="modal" data-target="#imageModal" 
+						data-prof-id="<?=iencode($student['profile_id'])?>">
 					<span class="glyphicon glyphicon-pencil"></span>
 				</div>
 			</div>
@@ -228,7 +235,8 @@
             <div class="modal-body">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <div class="row">
-                    <?php echo $batch_form;?>
+                	
+                    <?php echo $frm_image;?>
                 </div>
             </div>
         </div>
@@ -238,7 +246,46 @@
 
 <script type="text/javascript">
 	$(function(){
-		
+		$(document).on('click','.picEdit',function(){
+			var img_id = $(this).attr('data-img-id');
+			var student_id = $(this).attr('data-prof-id');
+			$('#imageModal .form-msg').html('');
+			$('#student_id').val(student_id);
+			$('#img_id').val(img_id);
+			$('input[type=file]').val('');
+		});
+
+		$(document).on('click','.picRemove',function(){
+			data = {img_id : $(this).attr('data-img-id')}
+			$.post( base_url + "student/imgRemove", data,function( data ) {
+			   	// location.reload();
+			   	console.log(data);
+			});
+		});
+
+		$(document).on('submit','#form-img',function(e){
+			e.preventDefault();
+			$.ajax({
+				url:base_url + 'student/img_upload',
+				data: new FormData(this),
+				type: 'post',
+				dateType:'json',
+				contentType: false,
+		        cache: false,
+		        processData: false,
+				success: function(response){
+					console.log(response);
+					if(response.success === true){
+						$('#imageModal .form-msg').html(response.message);
+						location.reload();
+					}else{
+						$('#imageModal .form-msg').html(response.message);
+
+					}
+				}
+
+			});
+		});
 	});
 </script>
 

@@ -177,8 +177,7 @@ class School_model extends CI_Model
             $config = array(
                 // 'upload_path' => base_url('assets/_uploads/'),
                 'upload_path' => './assets/_uploads/profile_headers/',
-                'allowed_types' => 'png||   gif|jpg|png|jpeg|JPG|PNG|GIF|JPEG',
-                'max_size' => 2000,
+                'allowed_types' => 'jpg|png|jpeg',
                 'overwrite'  => FALSE,
                 'remove_spaces' =>  TRUE,
             );

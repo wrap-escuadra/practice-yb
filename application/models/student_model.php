@@ -26,7 +26,7 @@ class Student_model extends CI_Model
     function getPictures($profile_id)
     {
         $profile_id = idecode($profile_id);
-        $sql = "SELECT student_id as profile_id ,img FROM lu_yb_images WHERE student_id = '{$profile_id}'";
+        $sql = "SELECT id,student_id as profile_id ,img FROM lu_yb_images WHERE student_id = '{$profile_id}'";
         $q = $this->db->query($sql);
         return $q->result_array();
     }
