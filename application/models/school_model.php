@@ -127,7 +127,7 @@ class School_model extends CI_Model
     private function create_username($first_name,$last_name)
     {
         $fullname = trim($first_name).trim($last_name);
-        $fullname = str_replace(' ', '-[', $fullname);
+        $fullname = str_replace(' ', '_', $fullname);
         $success = FALSE;
         $username = $fullname;
         $i = 1;

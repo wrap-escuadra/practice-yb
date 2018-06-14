@@ -77,7 +77,7 @@
 					</div>	
 	
 					<div class=" input-div">
-                            <label>Email Address <span class="text-danger small">(required)</span> </label>
+                            <label>Email Address </label>
 						<div class="input-group">
 						    <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
 						    <input  type="email" class="form-control input-sm" name="email"  value="<?=set_value('email');?>">

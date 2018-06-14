@@ -56,7 +56,13 @@ class Student extends MY_Controller{
 
 	public function update_img($profile_id,$img_id){
 		//delete previous image
-		$this->db->where('id',$img_id)->delete('lu_yb_images');
+		if($img_id != ''){
+			$image_name = $this->db->where('id',$img_id)->get('lu_yb_images')->row_array()['img'];
+			$path = './assets/_uploads/profile_headers/';
+			unlink($path.$image_name);
+			$this->db->where('id',$img_id)->delete('lu_yb_images');
+		}
+		
 		//save new data
 		return $this->save_image_data($profile_id,$img_id);
 	}
