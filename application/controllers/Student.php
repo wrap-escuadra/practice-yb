@@ -39,7 +39,7 @@ class Student extends MY_Controller{
         else
         {
             $data = array('upload_data' => $this->upload->data());
-            $msg = "Image successfully uploaded. ";
+            $msg = "Image successfully updated. ";
             $profile_id = idecode($this->input->post('profile_id'));
             $img_id = idecode($this->input->post('img_id'));
             $this->update_img($profile_id,$img_id);
@@ -165,8 +165,9 @@ class Student extends MY_Controller{
     	}else{
     		$data['success'] = false;
     		$msg = "Soemthing went wrong please try again";
-    	}
 
+    	}
+		$this->msg_flash($msg);
     	header('Content-Type: application/json');
     	echo json_encode($data);
 

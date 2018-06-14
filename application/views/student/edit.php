@@ -258,8 +258,8 @@
 		$(document).on('click','.picRemove',function(){
 			data = {img_id : $(this).attr('data-img-id')}
 			$.post( base_url + "student/imgRemove", data,function( data ) {
-			   	// location.reload();
-			   	console.log(data);
+			   	location.reload();
+			   	// console.log(data);
 			});
 		});
 
