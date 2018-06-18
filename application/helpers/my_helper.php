@@ -92,4 +92,25 @@ function set_popmsg($msg)
     }
     return $randomString;
 }
+
+function create_thumb($source,$filename){
+        $ci = get_instance();
+        $config['image_library'] = 'gd2';
+        $config['source_image'] = $source.$filename; // '/path/to/image/mypic.jpg';
+        $config['new_image'] = $source.'thumbnail/'.'thumb_'.$filename;
+        $config['create_thumb'] = TRUE;
+        $config['maintain_ratio'] = TRUE;
+        $config['width']         = 50;
+        $config['height']       = 50;
+        $config['thumb_marker'] = '';
+
+        $ci->image_lib->initialize($config);
+
+        if (!$ci->image_lib->resize()) {
+            echo $ci->image_lib->display_errors();
+            die();
+        }
+        // clear //
+        $ci->image_lib->clear();
+    }
  ?>

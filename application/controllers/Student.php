@@ -42,8 +42,11 @@ class Student extends MY_Controller{
             $msg = "Image successfully updated. ";
             $profile_id = idecode($this->input->post('profile_id'));
             $img_id = idecode($this->input->post('img_id'));
+
             $this->update_img($profile_id,$img_id);
             $this->msg_flash($msg);
+
+
             $data['success'] = true;
            	$data['message'] = $msg;
            	
@@ -58,9 +61,14 @@ class Student extends MY_Controller{
 		//delete previous image
 		if($img_id != ''){
 			$image_name = $this->db->where('id',$img_id)->get('lu_yb_images')->row_array()['img'];
-			$path = './assets/_uploads/profile_headers/';
-			unlink($path.$image_name);
+			if($image_name != '')
+			{
+				$path = './assets/_uploads/profile_headers/';
+				unlink($path.$image_name);
+			}
+			
 			$this->db->where('id',$img_id)->delete('lu_yb_images');
+
 		}
 		
 		//save new data
@@ -68,14 +76,15 @@ class Student extends MY_Controller{
 	}
 
 	public function save_image_data($profile_id=null,$img_id=null){
+		$this->load->library('image_lib');
 		$pic_data = $this->upload->data();
 		
         $data = [
             'student_id' => $profile_id,
             'img' => $pic_data['file_name'],
         ];
-
-
+ 		$path = './assets/_uploads/profile_headers/';
+        create_thumb($path,$pic_data['file_name']);
         return $this->db->insert('lu_yb_images',$data);
 	}
 
@@ -163,8 +172,19 @@ class Student extends MY_Controller{
     	$img_id = idecode($this->input->post('img_id'));
     	$query = $this->db->where('id',$img_id)->get('lu_yb_images');
     	$image_name = $query->row_array()['img'];
-    	$path = './assets/_uploads/profile_headers/';
-    	unlink($path.$image_name);
+
+    	if($image_name != '')
+		{
+			$path = './assets/_uploads/profile_headers/';
+	    	if(file_exists($path.$image_name))unlink($path.$image_name);
+	    	$thumb_file = $path.'thumbnail/thumb_'.$image_name;
+	    	if(file_exists($thumb_file))unlink($thumb_file);
+		}
+    	
+    	
+
+    	
+
     	if( $this->db->where('id',$img_id)->delete('lu_yb_images')){
     		$data['success'] = true;
     		$msg = "Image successfully deleted";

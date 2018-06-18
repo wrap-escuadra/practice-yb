@@ -46,7 +46,7 @@
 					data-prof-id="<?=iencode($student['profile_id'])?>">
 					<span class="glyphicon glyphicon-pencil" ></span>
 				</div>
-				<div class="btn btn-default picRemove" onclick="return confirm('Are you sure?')" data-img-id="<?=iencode($pic['id']);?>" >
+				<div class="btn btn-default picRemove"  data-img-id="<?=iencode($pic['id']);?>" >
 					<span class="glyphicon glyphicon-remove"></span>
 				</div>
 			</div>
@@ -256,11 +256,14 @@
 		});
 
 		$(document).on('click','.picRemove',function(){
-			data = {img_id : $(this).attr('data-img-id')}
-			$.post( base_url + "student/imgRemove", data,function( data ) {
-			   	location.reload();
-			   	// console.log(data);
-			});
+			$confirm = confirm('Are you sure?');
+			if($confirm){
+				data = {img_id : $(this).attr('data-img-id')}
+				$.post( base_url + "student/imgRemove", data,function( data ) {
+				   	location.reload();
+				   	// console.log(data);
+				});
+			}
 		});
 
 		$(document).on('submit','#form-img',function(e){

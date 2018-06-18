@@ -6,16 +6,19 @@ class Profile extends MY_Controller{
 	function __construct(){
 		parent:: __construct();
 
+
 	}
 	public function index()
 	{	
 		$this->load->model('profile_model');
+		$this->load->model('student_model');
 		$this->data = [
 			'page_title' =>  $this->data['page_title']." : My Profile",
 			'user' => $this->profile_model->my_profile(),
 			'awards' => $this->profile_model->awards($this->session->userdata('student_id')),
 			'grad_photos' => $this->profile_model->grad_photos($this->session->userdata('student_id')),
 		];
+		// debug($this->data['grad_photos']);
 
 		$this->load->view('includes/head',$this->data);
 		$this->load->view('profile/myprofile.php');

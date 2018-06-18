@@ -168,7 +168,7 @@ class School_model extends CI_Model
     }
     private function _upload_head_image($student_id)
     {
-
+        $this->load->library('image_lib');
         if (!isset($_FILES))return false;
         if( isset($_FILES)){
 
@@ -199,11 +199,16 @@ class School_model extends CI_Model
                     if($this->upload->do_upload()){
 
                         $pic_data = $this->upload->data();
+
+                        $path = './assets/_uploads/profile_headers/';
+                        create_thumb($path,$pic_data['file_name']);
                         $data = [
                             'student_id' => $student_id,
                             'img' => $pic_data['file_name'],
                         ];
                         $this->db->insert('lu_yb_images',$data);
+
+                        
 //                        echo $this->db->last_query();
                         // die($this->db->insert_id());
                     }else{
@@ -221,6 +226,7 @@ class School_model extends CI_Model
 
                 }
             endforeach;
+            
 
             // if(!$uploading){
             // 	echo $this->session->set_flashdata('pop',$this->upload->display_errors());
@@ -230,6 +236,8 @@ class School_model extends CI_Model
         }
 
     }
+
+    
 
     public function yearbookAdd($year,$school_id=null)
     {

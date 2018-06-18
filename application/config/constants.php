@@ -12,6 +12,9 @@ define('ASIN', 's@lt_Yb');
 define('ENC_IV', 'TITOVICJOEY');
 define('PER_PAGE', 5);
 
+
+define('IMG_DIR', './assets/_uploads/');
+
 // defined('CONTROL_IMG_IR') OR define('SIDEPANEL_IMG_DIR', base_url('assets/images/head/sidepanel') + "/");
 /*
 |--------------------------------------------------------------------------

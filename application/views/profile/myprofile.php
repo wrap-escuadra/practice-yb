@@ -11,7 +11,7 @@
           <div class="row">              
               
                 <div style="float:left; width:40px; margin-left:15px; margin-right:10px;">
-                  <a href="school.php"><img src="images/school_logo.jpg" alt="Logo" width="40"></a>               
+                  <a href="school.php"><img src="<?=IMG_DIR?>school_logos/university-logo.jpg" alt="School Logo" width="40"></a>        
                 </div>                
               
                 <div style="float:left; width:200px;" >         
@@ -30,7 +30,7 @@
       <div class="col-sm-3" style="padding:10; border-radius: 3px 3px 0px 0px;">
 
         <div class="left-panel-profile" style="padding:0;">
-          <div align="center" ><img src="images/gradphotos/id-dane.jpg" alt="Logo" width="100%" style="border-radius: 3px 3px 0px 0px;"><br></div>
+          <div align="center" ><img src="<?=IMG_DIR?>profile_headers/grad_pic1.jpg" alt="Logo" width="100%" style="border-radius: 3px 3px 0px 0px;"><br></div>
         </div>
 
 
@@ -148,7 +148,7 @@
             <div class="col-md-12" style="padding:0;">
               <?php foreach($grad_photos as $gp){ ?>
               <div class="col-xs-4" style="border-width:1px;border-color:#9caab5;border-style:solid; padding:0;">
-                <img src="<?=site_url('assets/_uploads/profile_headers/'.$gp['img']);?>" alt="Logo" width="100%">
+                <img src="<?=site_url('assets/_uploads/profile_headers/'.$gp['img']);?>" alt="Graduation Photo" width="100%">
               </div>
               <?php } ?>
               <!-- <div class="col-xs-6" style="border-width:1px;border-color:#9caab5;border-style:solid; padding:0;">
