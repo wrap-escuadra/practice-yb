@@ -148,7 +148,7 @@
             <div class="col-md-12" style="padding:0;">
               <?php foreach($grad_photos as $gp){ ?>
               <div class="col-xs-4" style="border-width:1px;border-color:#9caab5;border-style:solid; padding:0;">
-                <img src="<?=site_url('assets/_uploads/profile_headers/'.$gp['img']);?>" alt="Graduation Photo" width="100%">
+                <img src="<?=IMG_DIR.'profile_headers/'.$gp['img'];?>" alt="Graduation Photo" width="100%">
               </div>
               <?php } ?>
               <!-- <div class="col-xs-6" style="border-width:1px;border-color:#9caab5;border-style:solid; padding:0;">
