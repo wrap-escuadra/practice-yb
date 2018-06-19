@@ -23,7 +23,35 @@ function clean_string($string){
 function mysql_date($date,$fs = "-"){ //formatting date for mysql
     return date('Y'.$fs.'m'.$fs.'d',strtotime($date) );
 }
+function human_date($post_date){ 
+    // $ci = get_instance();
+    // $ci->load->helper('date');
+    $post_date = strtotime($post_date);
+    $now = time();
+    $duration =  $now - $post_date;
 
+    $hours = (int)($duration/60/60);
+    $minutes = (int)($duration/60)-$hours*60;
+    $seconds = (int)$duration-$hours*60*60-$minutes*60;
+    if($hours < 5){
+        $time = "";
+        if($hours > 0){
+            $time = $hours;
+            $time .= $hours == 1 ? ' hour ' : ' hours ';
+        }
+        if($minutes > 0){
+            $time .= $minutes;
+            $time .= $minutes == 1 ? ' min ' : ' mins' ;
+        }else{
+            $time = $seconds . ' seconds';
+        }
+        $time .= ' ago';
+        return $time;
+
+    }else{
+        return date('Y-M-d h:i:s a');
+    }
+}
 function iencode($string){
         // return base64_encode($text .'jaskdjfklsdj');
         // return base64_encode(ASIN.$text.ASIN);
@@ -51,7 +79,7 @@ function idecode($encrypted_text){
     $key = hash( 'sha256', $secret_key );
     $iv = substr( hash( 'sha256', $secret_iv ), 0, 16 );
 
-    $output = openssl_decrypt( base64_decode( $string ), $encrypt_method, $key, 0, $iv );
+    $output = openssl_decrypt( base64_decode( $encrypted_text ), $encrypt_method, $key, 0, $iv );
     return $output;
 }
 function school_status($status=null){
@@ -66,7 +94,7 @@ function school_status($status=null){
     }
 }
 
-function debug($data,$die=FALSE){
+function debug($data,$die=TRUE){
 	echo '<pre>';
 	var_dump($data);
 	echo '</pre>';
@@ -82,4 +110,35 @@ function set_popmsg($msg)
     $ci->session->set_flashdata('pop',$msg);
 }
 
+ function createDefaultPassword(){
+    $length =6;
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $charactersLength = strlen($characters);
+    $randomString = '';
+    for ($i = 0; $i < $length; $i++) {
+        $randomString .= $characters[rand(0, $charactersLength - 1)];
+    }
+    return $randomString;
+}
+
+function create_thumb($source,$filename){
+        $ci = get_instance();
+        $config['image_library'] = 'gd2';
+        $config['source_image'] = $source.$filename; // '/path/to/image/mypic.jpg';
+        $config['new_image'] = $source.'thumbnail/'.'thumb_'.$filename;
+        $config['create_thumb'] = TRUE;
+        $config['maintain_ratio'] = TRUE;
+        $config['width']         = 50;
+        $config['height']       = 50;
+        $config['thumb_marker'] = '';
+
+        $ci->image_lib->initialize($config);
+
+        if (!$ci->image_lib->resize()) {
+            echo $ci->image_lib->display_errors();
+            die();
+        }
+        // clear //
+        $ci->image_lib->clear();
+    }
  ?>

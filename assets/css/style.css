@@ -296,4 +296,16 @@ p {
 
   }
 
+
+  .red-border{
+    border: 2px solid #a94442;
+  }
+  .input-error{
+    color: #a94442;
+  }
+
+  .padded{
+    padding: 10px;
+  }
+
   

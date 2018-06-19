@@ -5,7 +5,7 @@ class Admin extends MY_Controller{
 	function __construct(){
 		parent:: __construct();
 		$this->load->model('admin_model');
-
+		$this->load->model('school_model');
 		$this->form_validation->set_error_delimiters('<p class=" text-danger"><i class="glyphicon glyphicon-remove-sign hide"></i>  ', '</p>');
 		if($this->session->userdata('user_role') != R_SYSADMIN )
 		{
@@ -197,20 +197,18 @@ class Admin extends MY_Controller{
 	}
 	public function school_add()
 	{
-
-		$this->data = [
-			'page_title' =>  $this->data['page_title']." : New Schools",
+		$this->data['page_title'] .= " Xxxx";
+		$this->data += [
 			'pageCSS' => array('bootstrap-select'),
 			'customJS' => array('admin','bootstrap-select'),
 			'countries' =>  $this->admin_model->get_countries()->result_array()
 		];
-
 		if($this->input->post())
 		{
-			debug($this->input->post());
-			if($this->_add_school_validation() != FALSE)
+			// debug($this->input->post());
+			if($this->check_input('school_add') != FALSE)
 			{
-				$this->_add_school($this->input->post());
+				$this->admin_model->add_school($this->input->post());
 				// $school_id = $this->db->insert_id();
 				// $this->_upload_school_images($school_id);
 				$msg = 'School successfully added';
@@ -226,20 +224,7 @@ class Admin extends MY_Controller{
 		$this->load->view('includes/footer');
 	}
 
-	private function _add_school($post)
-	{
-		$data = array(
-			'school_name' =>  $post['school_name'],
-			'school_abbr' =>  strtoupper($post['school_abbr']),
-			'school_address' =>  $post['school_address'],
-			'school_city' =>  $post['school_city'],
-			'school_region' =>  $post['school_region'],
-			'school_country' =>  $post['school_country'],
-			'school_description' =>  $post['school_description'],
-
-		);
-		return $this->db->insert('mt_schools',input_prep($data));
-	}
+	
 
 	public function activation($school_id){
 		$school_id = idecode($school_id);
@@ -272,36 +257,36 @@ class Admin extends MY_Controller{
 	}
 
 	private function _add_school_validation(){
-		$config = array(
-			  array(
-		            'field' => 'school_name',
-		            'label' =>  'school name',
-		            'rules' => 'required'
-		        ),
-		        array(
-		            'field' => 'school_abbr',
-		            'label' =>  'school abbreviation',
-		            'rules' => 'required'
-		        ),
+		// $config = array(
+		// 	  array(
+		//             'field' => 'school_name',
+		//             'label' =>  'school name',
+		//             'rules' => 'required'
+		//         ),
+		//         array(
+		//             'field' => 'school_abbr',
+		//             'label' =>  'school abbreviation',
+		//             'rules' => 'required'
+		//         ),
 		       
-		        array(
-		            'field' => 'school_address',
-		            'label' =>  'school address',
-		            'rules' => 'required'
-		        ),
-		        array(
-		            'field' => 'school_city',
-		            'label' =>  'city/province',
-		            'rules' => 'required'
-		        ),
-		        array(
-		            'field' => 'country',
-		            'label' =>  'school country',
-		            'rules' => 'required'
-		        ),
-			);
-		
-		$this->form_validation->set_rules($config);
+		//         array(
+		//             'field' => 'school_address',
+		//             'label' =>  'school address',
+		//             'rules' => 'required'
+		//         ),
+		//         array(
+		//             'field' => 'school_city',
+		//             'label' =>  'city/province',
+		//             'rules' => 'required'
+		//         ),
+		//         array(
+		//             'field' => 'country',
+		//             'label' =>  'school country',
+		//             'rules' => 'required'
+		//         ),
+		// 	);
+		$this->load->config('form_validation');
+		$this->form_validation->set_rules($this->config->item('school_add'));
 		return $this->form_validation->run();
 	}
 
@@ -354,7 +339,7 @@ class Admin extends MY_Controller{
 	{	
 		if($this->input->post() AND $this->_validate_new_school_admin() !== FALSE )
 		{	
-			$this->_add_school_admin($this->input->post());
+			$this->school_model->add_school_admin($this->input->post());
 		}
 			$dec_school_id = idecode($school_id);
 			$q = $this->db->where('id',$dec_school_id)->get('vw_schools');
@@ -416,42 +401,7 @@ class Admin extends MY_Controller{
 	{	
 		
 		
-		$data = array(
-			'username' => $post['username'],
-			'password' => md5($post['username']),
-			'user_role' => R_SCHOOLADMIN
-		);
-
-		if($this->db->insert('mt_users', input_prep($data) ))
-		{
-
-			$school_id = $post['school_id'];
-			$school_id = idecode($school_id);
-			$user_id = $this->db->insert_id();
-			$data = array(
-				'school_id' => $school_id,
-				'first_name' => $post['first_name'],
-				'last_name' => $post['last_name'],
-				'middle_name' => $post['middle_name'],
-				'email' =>  $post['email'],
-				'mobile' => $post['mobile'],
-				'landline' => $post['landline'],
-				'user_id' => $user_id
- 
-			);
-			// var_dump($this->db->insert('mt_faculties',input_prep($data)) );die();
-			if( $this->db->insert('mt_faculties',input_prep($data)) === TRUE  )
-			{
-				$msg = '<span class="text-bold text-info">New school admin \''.$post['username'].'\' successfully added.</span>';
-				$this->session->set_flashdata('pop',$msg);
-// die(site_url( 'admin/schools/'.iencode($post['school_id']) ) );
-				redirect( site_url( 'admin/schools/'.$post['school_id'] ) );
-			}else{
-				$this->db->where('user_id',$user_id);
-				$this->db->delete('mt_faculties');
-
-			}
-		}
+		
 	}
 
 
@@ -495,8 +445,8 @@ class Admin extends MY_Controller{
 			),
 			array(
 				'field' => 'country_code',
-				'label' => 'country Code',
-				'rules' => 'numeric|is_unique[yb_countries.country_code]'
+				'label' => 'country code',
+				'rules' => 'numeric|max_length[5]|is_unique[yb_countries.country_code]'
 			),
 		];
 

@@ -1,0 +1,3 @@
+INSERT INTO `mt_users` (`user_id`, `username`, `password`, `user_role`, `default_password`)
+VALUES
+	(1, 'admin', 'dc766ef5454d29c977f611312301bd4c', 1, NULL);

@@ -91,4 +91,21 @@ class Test extends MY_Controller{
 		$this->load->view('includes/footer');
 	}
 
+	public function textio()
+	{
+		if($this->input->post())
+		{
+			// var_dump(htmlspecialchars($this->input->post('io')));
+			$data = [
+				'value' => $this->input->post('io')
+			];
+
+			$this->db->insert('textio',$data);
+			// echo 'Save successful';
+		}
+		$data['texts'] = $this->db->get('textio')->result_array();
+
+		$this->load->view('test/textio',$data);
+	}
+
 }

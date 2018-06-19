@@ -1,7 +1,7 @@
 <?php (defined('BASEPATH')) OR exit('No direct script access allowed');
 
 
-abstract class My_Controller extends CI_Controller
+ class My_Controller extends CI_Controller
 {
     /**
 	 * Class Constructor
@@ -11,12 +11,12 @@ abstract class My_Controller extends CI_Controller
 	function __construct()
 	{
 		parent::__construct();
-		// die( md5('ybpassword'));
-		$this->data['page_title'] = "Yearbook+";
+
+		$this->data['page_title'] = "YB+";
 		$this->must_logged_in();
 		$this->load->helper('my_helper');
 		// echo '<pre>';
-		// var_dump( $this->session->all_userdata() );
+//		 debug( $this->session->all_userdata(),true );
 		// echo '</pre>';
 	}
 
@@ -28,6 +28,36 @@ abstract class My_Controller extends CI_Controller
    		if($die)die();
    	}
 
+   	public function check_input($config_name,$file_name='form_validation') 
+   	{
+
+   		$this->load->config($file_name); //file is found application/config 
+   		if(empty($this->config->item($config_name) ) ) die('config name not definded');
+		$this->form_validation->set_rules($this->config->item($config_name));
+
+        if($this->input->is_ajax_request() ){
+            if($this->form_validation->run()){
+                return TRUE;
+            }else{
+                $input_error = array();
+
+                foreach($this->config->item($config_name) as $cfg){
+                    $input_error[] = array(
+                        'error' => form_error($cfg['field']),
+                        'type' => $cfg['type'],
+                        'field' => $cfg['field']
+                    );
+                }
+                $data['success'] = FALSE;
+                $data['errors'] = $input_error;
+                die(json_encode($data));
+
+            }
+        }else{
+            return $this->form_validation->run();
+        }
+
+   	}
     public function msg_flash($msg,$type='info'){
         // $var = '<div  class="alert alert-'.$type.' fade in " >'.
         //         $msg.'<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a></div>';
