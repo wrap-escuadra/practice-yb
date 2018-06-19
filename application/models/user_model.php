@@ -34,4 +34,28 @@ class User_model extends CI_Model
         $q = $this->db->query($sql);
         return $q->row_array();
     }
+
+
+
+    public function userInfo($user_id){
+        $q = $this->db->where('user_id',$user_id)->get('mt_users');
+        return $q->row_array();
+    }
+
+    public function changePassword($post){
+        $input = (object) $post;
+        $data = [
+            'username' => $input->username,
+            'password' => md5($input->password),
+            'default_password' => null
+        ];
+        $this->db->where('username',$input->old_username);
+        $this->db->update('mt_users',$data);
+        $this->session->set_userdata(['username' => $this->input->post('username')]);
+
+        
+       
+        
+
+    }
 }

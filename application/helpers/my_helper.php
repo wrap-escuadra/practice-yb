@@ -23,7 +23,35 @@ function clean_string($string){
 function mysql_date($date,$fs = "-"){ //formatting date for mysql
     return date('Y'.$fs.'m'.$fs.'d',strtotime($date) );
 }
+function human_date($post_date){ 
+    // $ci = get_instance();
+    // $ci->load->helper('date');
+    $post_date = strtotime($post_date);
+    $now = time();
+    $duration =  $now - $post_date;
 
+    $hours = (int)($duration/60/60);
+    $minutes = (int)($duration/60)-$hours*60;
+    $seconds = (int)$duration-$hours*60*60-$minutes*60;
+    if($hours < 5){
+        $time = "";
+        if($hours > 0){
+            $time = $hours;
+            $time .= $hours == 1 ? ' hour ' : ' hours ';
+        }
+        if($minutes > 0){
+            $time .= $minutes;
+            $time .= $minutes == 1 ? ' min ' : ' mins' ;
+        }else{
+            $time = $seconds . ' seconds';
+        }
+        $time .= ' ago';
+        return $time;
+
+    }else{
+        return date('Y-M-d h:i:s a');
+    }
+}
 function iencode($string){
         // return base64_encode($text .'jaskdjfklsdj');
         // return base64_encode(ASIN.$text.ASIN);

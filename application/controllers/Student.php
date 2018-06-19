@@ -125,6 +125,7 @@ class Student extends MY_Controller{
             'years' => $this->school_model->sch_years()->result_array(),
             'courses' => $this->school_model->sch_courses()->result_array(),
             'frm_image' => $this->load->view('student/frm_image',$this->data,TRUE),
+            'primary_img' => $this->student_model->getPrimaryImg($profile_id)
 		];
 		
 		$this->load->view('includes/head',$this->data);
@@ -196,7 +197,30 @@ class Student extends MY_Controller{
 		$this->msg_flash($msg);
     	header('Content-Type: application/json');
     	echo json_encode($data);
+    }
 
+    public function profile($student_id=null){
+    	if($student_id===null)redirect(site_url());
+
+    }
+
+    public function set_primary(){
+    	$profile_id = idecode( $this->input->post('profile_id'));
+    	$img_id = idecode( $this->input->post('img_id'));
+    	$q = $this->db->where('profile_id',$profile_id)->get('lu_student_primary');
+    	if($q->num_rows() == 0){
+    		$data = [
+    			'profile_id' => $profile_id,
+    			'img_id' => $img_id,
+    		];
+    		$this->db->insert('lu_student_primary',input_prep($data));
+    	}else{
+    		$data = [ 'img_id' => $img_id ];
+    		$this->db->where('profile_id',$profile_id)->update('lu_student_primary',input_prep($data));
+    	}
+
+
+    	
     }
 
 	

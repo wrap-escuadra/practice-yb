@@ -2,6 +2,7 @@
 $config['error_prefix']= '<p class="input-error">';
 $config['error_sufix']=  '</p>';
 
+
 $CI =get_instance();
 
 $config['school_add'] = array(
@@ -129,6 +130,48 @@ $config['award_edit'] = array(
     'rules' =>  'alpha_numeric_spaces|max_length[100]'
 );
 
+
+$config['comment_add'] = array(
+    array(
+        'field' => 'comment',
+        'label' =>  'comment',
+        'rules' => 'required|max_length[250]|alpha_numeric_spaces',
+        'type' => 'input'
+    ),
+
+);
+
+$is_unique = '';
+if($CI->input->post('old_username') !=  $CI->input->post('username')){
+    $is_unique = '|is_unique[mt_users.username]';
+}
+$config['change_password'] = array(
+    array(
+        'field' => 'username',
+        'label' =>  'username',
+        'rules' => 'required|max_length[30]|alpha_numeric_spaces'.$is_unique,
+        'type' => 'input'
+    ),
+    array(
+        'field' => 'current_password',
+        'label' =>  'current password',
+        'rules' => 'required|current_password',
+        'type' => 'password'
+    ),
+    array(
+        'field' => 'password',
+        'label' =>  'new password',
+        'rules' => 'required|min_length[6]|max_length[30]|alpha_numeric_spaces|matches[password_confirmation]',
+        'type' => 'password'
+    ),
+    array(
+        'field' => 'password_confirmation',
+        'label' =>  'password confirmation',
+        'rules' => 'required|min_length[6]|max_length[30]|alpha_numeric_spaces',
+        'type' => 'password'
+    )
+
+);
 	  	
 	
 

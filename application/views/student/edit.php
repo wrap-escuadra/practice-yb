@@ -6,14 +6,29 @@
 	}
 	.yb-img img{
 		max-height: 140px;
+		
 	}
 
-	.picEdit{
+	.btnEdit{
 		position: absolute;
 		right: 20px;
 		bottom: 24px;
 	}
+	.setPrimary{
+		position: absolute;
+		left: 20px;
+		top: 5px;
+	}
 	
+	.glyphicon-star{
+		color: #ffff66;
+		font-weight: bolder;
+	}
+	.glyphicon-star-empty{
+		color: #D3D3D3;
+	}
+
+
 	/*.file-zoom-content{
 		background: #000;
 	}*/
@@ -37,17 +52,21 @@
 			</ul>
 		</div>
 
-		<?php foreach($pictures as $pic): ?>
+		<?php foreach($pictures as $key => $pic): ?>
 		<div class="col-xs-4 " >
 			<div class="thumbnail yb-img">
 				<img   class=" img-responsive img-round" src="<?=base_url('assets/_uploads/profile_headers/'.$pic['img']);?>">
-				<div class="btn btn-default picEdit" data-toggle="modal" data-target="#imageModal" 
+				
+				<div class="btn btn-default btnEdit <?=$primary_img == $pic['img']  ? 'disabled' : 'picEdit';?>" data-toggle="modal" 
 					data-img-id="<?=iencode($pic['id']);?>" 
 					data-prof-id="<?=iencode($student['profile_id'])?>">
 					<span class="glyphicon glyphicon-pencil" ></span>
 				</div>
-				<div class="btn btn-default picRemove"  data-img-id="<?=iencode($pic['id']);?>" >
+				<div class="btn btn-default btnRemove <?=$primary_img == $pic['img']  ? 'disabled' : 'picRemove';?>"  data-img-id="<?=iencode($pic['id']);?>" >
 					<span class="glyphicon glyphicon-remove"></span>
+				</div>
+				<div class="btn btn-default setPrimary"  data-img-id="<?=iencode($pic['id']);?>" data-profile-id="<?=iencode($student['profile_id']);?>">
+					<span class="glyphicon glyphicon-star<?=$primary_img == $pic['img'] ? '' : '-empty'?>"></span>
 				</div>
 			</div>
 		</div>
@@ -55,7 +74,7 @@
 		<?php for($x = count($pictures); $x<3 ; $x++): ?>
 		<div class="col-xs-4">
 			<div class="thumbnail yb-img">
-				<img   class=" img-responsive img-round" src="<?=base_url('assets/_uploads/profile_headers/no-image.jpg');?>">
+				<img   class=" img-responsive img-round" src="<?=site_url('assets/images/system/default/no-user-image.gif');?>">
 				<div class="btn btn-default picEdit" data-toggle="modal" data-target="#imageModal" 
 						data-prof-id="<?=iencode($student['profile_id'])?>">
 					<span class="glyphicon glyphicon-pencil"></span>
@@ -66,9 +85,6 @@
  	</div>
 	<form action="" method="post" enctype="multipart/form-data" >
 		<div class="row">
-			<?php 
-				
-			?>
 			<div class="col-md-7 ">
 
 				<div class="">
@@ -266,6 +282,37 @@
 			}
 		});
 
+		$(document).on('click','.setPrimary',function(){
+			$confirm = confirm('Set image as primary?');
+			var obj = $(this).find('span.glyphicon');
+			if($confirm){
+				var data = {img_id : $(this).attr('data-img-id'),profile_id :$(this).attr('data-profile-id')};
+				// console.log(data);
+				$.post(base_url + "student/set_primary",data,function(){
+					myLoader('show');
+				}).done(function(){
+					$('.setPrimary >span.glyphicon- ').removeClass('glyphicon-star-empty');
+					$('.glyphicon-star').addClass('glyphicon-star-empty').removeClass('glyphicon-star');
+					obj.addClass('glyphicon-star').removeClass('glyphicon-star-empty');
+
+					//btn pencil
+					// btnEdit = obj.parent().parent().find('.btnEdit');
+					// console.log(btnEdit.attr('class'));
+					// btnEdit.removeClass('picEdit').addClass('disabled')
+					// console.log(btnEdit.attr('class'));
+					// $('.btnEdit').addClass('picEdit').removeClass('disabled');
+					$('.btnEdit').removeClass('disabled').addClass('picEdit');
+					obj.parent().parent().find('.btnEdit').addClass('disabled').removeClass('picEdit');
+
+					//btn remove
+					$('.btnRemove').removeClass('disabled').addClass('picRemove');
+					obj.parent().parent().find('.btnRemove').addClass('disabled').removeClass('picRemove');
+					
+					myLoader('hide');
+				});
+			}
+		});
+
 		$(document).on('submit','#form-img',function(e){
 			e.preventDefault();
 			$.ajax({
@@ -288,6 +335,11 @@
 				}
 
 			});
+		});
+
+
+		$(document).on('click','.picEdit',function(){
+			$('#imageModal').modal('show');
 		});
 	});
 </script>

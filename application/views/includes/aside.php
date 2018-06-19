@@ -6,7 +6,9 @@
     <br>
       <div class="panel-title" style="margin-top:20px; width:300px;"><img src="<?=base_url('assets/images/system/sidepanel/button-control-gray.svg');?>" alt="messages" height="30" data-toggle="tooltip" style="margin-bottom:5px;">  Control Panel
         <div style="border-top: 3px solid #4ebad4; padding-top:10px; margin-top:10px; width:100%;"></div>
-        <a href="#" class="sidebar-box"> <img src="<?=base_url('assets/images/system/sidepanel/button-edit-profile.svg');?>" height="25" style="margin-bottom:5px; margin-right:10px;"> Edit Profile</a>
+        <?php if($this->session->userdata['user_role'] == R_STUDENT){ ?>
+          <a href="<?=site_url('student/edit/'.iencode($this->session->userdata('student_id')));?>" class="sidebar-box"> <img src="<?=base_url('assets/images/system/sidepanel/button-edit-profile.svg');?>" height="25" style="margin-bottom:5px; margin-right:10px;"> Edit Profile</a>
+        <?php } ?>
         <a href="<?=site_url('school/');?>" class="sidebar-box"> <img src="<?=base_url('assets/images/system/yb_logowhite.svg');?>" height="25" style="margin-bottom:5px; margin-right:10px;"> Yearbook Creator<span class="sidebar_txt"> / School Only /</span></a>
         <a href="#" class="sidebar-box"> <img src="<?=base_url('assets/images/system/sidepanel/button-photo-gallery.svg');?>" height="25" style="margin-bottom:5px; margin-right:10px;"> Photo Gallery</a>
         <a href="#" class="sidebar-box"> <img src="<?=base_url('assets/images/system/sidepanel/button-pages.svg');?>" height="25" style="margin-bottom:5px; margin-right:10px;"> Pages <span class="sidebar_txt"> / School All /</span></a>
@@ -18,7 +20,7 @@
         <?php } ?>
         <a href="#" class="sidebar-box"> <img src="<?=base_url('assets/images/system/sidepanel/button-inbox.svg');?>" height="25" style="margin-bottom:5px; margin-right:10px;"> Messages</a>
         <a href="career.php" class="sidebar-box"> <img src="<?=base_url('assets/images/system/sidepanel/button-find-jobs.svg');?>" height="25" style="margin-bottom:5px; margin-right:10px;"> Career <span class="sidebar_txt"> / Students Only /</span></a>
-        <a href="#" class="sidebar-box"> <img src="<?=base_url('assets/images/system/sidepanel/button-security.svg');?>" height="25" style="margin-bottom:5px; margin-right:10px;"> Security</a>
+        <a href="<?=site_url('profile/change/password');?>" class="sidebar-box"> <img src="<?=base_url('assets/images/system/sidepanel/button-security.svg');?>" height="25" style="margin-bottom:5px; margin-right:10px;"> Security</a>
         <a href="<?=site_url('user/logout');?>" class="sidebar-box"> <img src="<?=base_url('assets/images/system/sidepanel/button-logout.svg');?>" height="25" style="margin-bottom:5px; margin-right:10px;"> Logout</a>
         <br><br>
         <div class="sidebar_txt">Yearbook Portal : Control Panel v1.0</div>

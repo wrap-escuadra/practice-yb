@@ -43,4 +43,5 @@ $lang['unique_course_code']		= 'The {field} already exists.';
 $lang['unique_sch_year'] = 'The {field} already exists.';
 $lang['form_validation_is_unique'] 		= 'The {field} is already taken. Please provide a unique {field}.';
 $lang['edit_unique_email'] = 'The {field} is already taken. Please provide a unique {field}.';
+$lang['current_password'] = 'Wrong password supplied for {field}.';
 

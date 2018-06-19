@@ -41,6 +41,22 @@ class Student_model extends CI_Model
         return $q->result_array();
     }
 
+    function getPrimaryImg($profile_id)
+    {
+        $profile_id = idecode($profile_id);
+        $sql = "SELECT * FROM lu_student_primary lsp 
+                LEFT JOIN lu_yb_images lyb ON lsp.img_id = lyb.id
+                WHERE lsp.profile_id = '{$profile_id}'
+                ";
+        $q = $this->db->query($sql);
+        if($q->num_rows() > 0){
+            return $q->row()->img;
+        }else{
+            return 'yp-logo2.svg';
+        }
+        
+    }
+
     function updateStudentInfo($post){
         $profile_id = idecode($post['profile_id']);
         $data = array(
@@ -74,9 +90,7 @@ class Student_model extends CI_Model
                 );
             }
         }
-         return $this->db->insert_batch('lu_student_awards',$data);
-
-
+        return $this->db->insert_batch('lu_student_awards',$data);
     }
 
 

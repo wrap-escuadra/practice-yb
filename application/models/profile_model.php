@@ -26,6 +26,20 @@ class Profile_model extends CI_Model
         return $q->result_array();
     }
 
+    public function getComments(){
+       $sql = "SELECT pc.*
+                    ,concat(concat(ms.first_name,' '),ms.last_name) receiver
+                    ,concat(concat(ms2.first_name,' '),ms2.last_name) commentor
+                FROM profile_comments pc
+                LEFT JOIN mt_students ms on pc.profile_id = ms.profile_id 
+                LEFT JOIN mt_students ms2 on pc.commentor = ms2.profile_id 
+                WHERE pc.profile_id = '".$this->session->userdata('student_id')."'
+                ORDER BY created_at";
+        $q = $this->db->query($sql);
+        // debug($this->db->last_query());
+        return $q->result_array();
+    }
+
 
 
     

@@ -10,6 +10,7 @@ class Profile extends MY_Controller{
 	}
 	public function index()
 	{	
+		if($this->session->userdata('user_role') != R_STUDENT) show_404();
 		$this->load->model('profile_model');
 		$this->load->model('student_model');
 		$this->data = [
@@ -17,6 +18,8 @@ class Profile extends MY_Controller{
 			'user' => $this->profile_model->my_profile(),
 			'awards' => $this->profile_model->awards($this->session->userdata('student_id')),
 			'grad_photos' => $this->profile_model->grad_photos($this->session->userdata('student_id')),
+			'comments' => $this->profile_model->getComments(),
+			'primary_img' => $this->student_model->getPrimaryImg(iencode($this->session->userdata('student_id')))
 		];
 		// debug($this->data['grad_photos']);
 
@@ -24,6 +27,19 @@ class Profile extends MY_Controller{
 		$this->load->view('profile/myprofile.php');
 		$this->load->view('includes/footer');
 
+	}
+
+	public function add_comment(){
+		// debug($this->session->userdata('student_id'));die();
+		$data = [
+			'profile_id' => idecode($this->input->post('profile_id')),
+			'commentor' => $this->session->userdata('student_id'),
+			'comment' => $this->input->post('comment')
+		];
+		$this->db->insert('profile_comments',input_prep($data));
+
+		$this->msg_flash('Comment Added');
+		redirect(site_url('profile/#comments'));
 	}
 
 	public function school_admin()
@@ -61,7 +77,7 @@ class Profile extends MY_Controller{
 				'middle_name' => $post['middle_name'],
 				'birth_date' =>  mysql_date($post['birth_date']) ,
 				'course_id' => $post['course_id'],
-				'role_id' => ROLE_STUDENT,
+				'role_id' => R_STUDENT,
 				'email' => strtolower($post['email'])
  			);
 		
@@ -166,6 +182,29 @@ class Profile extends MY_Controller{
 
 		}
 	
+	}
+
+	/**
+	*param enum(username,password)
+	**/
+	public function change($param='password'){ 
+		$this->load->model('user_model');
+		if($this->input->post()){
+			if($this->check_input('change_password') != FALSE)
+            {
+                $this->user_model->changePassword($this->input->post());
+                $msg = "User credential successfully updated";
+		        $this->msg_flash($msg);
+		        redirect(site_url('profile/change'));
+            }
+		}
+		
+		$this->data['page_title'] =  'Change Password '.$this->data['page_title'];
+		$this->data['user'] = $this->user_model->userInfo($this->session->userdata['user_id']);
+		
+		$this->load->view('includes/head',$this->data);
+		$this->load->view('profile/change_password',$this->data);
+		$this->load->view('includes/footer',$this->data);
 	}
 
 

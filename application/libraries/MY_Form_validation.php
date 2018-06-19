@@ -44,6 +44,17 @@ class MY_Form_validation extends CI_Form_validation
 
         return ($q->num_rows() > 0 ) ? FALSE : TRUE;
     }
+
+    function current_password($password){
+        $ci = get_instance();
+        $sql = "SELECT * FROM mt_users WHERE 
+                user_id = '".$ci->session->userdata('user_id')."' AND 
+                password = '".md5($password)."'";
+        $q = $ci->db->query($sql);
+// die($sql);
+        return ($q->num_rows() > 0) ? TRUE : FALSE;
+
+    }
    
 }
 
