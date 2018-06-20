@@ -13,7 +13,8 @@ class Student_model extends CI_Model
             $this->db->where('profile_id',$profile_id);  
             $q = $this->db->get('vw_students');
             if($q->num_rows() < 1){
-                redirect(base_url('school/students'));
+                // redirect(base_url('school/students'));
+                show_404();
             }
             return $q->row_array();
             
