@@ -199,10 +199,7 @@ class Student extends MY_Controller{
     	echo json_encode($data);
     }
 
-    public function profile($student_id=null){
-    	if($student_id===null)redirect(site_url());
-
-    }
+   
 
     public function set_primary(){
     	$profile_id = idecode( $this->input->post('profile_id'));
@@ -222,6 +219,31 @@ class Student extends MY_Controller{
 
     	
     }
+
+    public function profile($student_id){
+        $this->load->model('comment_model');
+        if($this->input->post()){
+            $this->comment_model->save();
+            $this->msg_flash('Comment Added');
+            redirect(site_url('student/profile/'.$student_id.'#comments'));
+        }
+        $student = $this->student_model->getStudents($student_id);        
+        $this->data = [
+            'page_title' =>  $this->data['page_title']." : My Profile",
+            'user' => $student,
+            'awards' => $this->student_model->getAwards($student_id),
+            'grad_photos' => $this->student_model->getPictures($student_id),
+            'comments' => $this->comment_model->fetch($student_id),
+            'primary_img' => $this->student_model->getPrimaryImg($student_id)
+        ];
+        
+
+        $this->load->view('includes/head',$this->data);
+        $this->load->view('student/view.php');
+        $this->load->view('includes/footer');
+    }
+
+
 
 	
 

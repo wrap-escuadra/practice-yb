@@ -31,15 +31,16 @@ class Profile extends MY_Controller{
 
 	public function add_comment(){
 		// debug($this->session->userdata('student_id'));die();
+		$profile_id = $this->input->post('profile_id');
 		$data = [
-			'profile_id' => idecode($this->input->post('profile_id')),
+			'profile_id' => idecode($profile_id) ,
 			'commentor' => $this->session->userdata('student_id'),
 			'comment' => $this->input->post('comment')
 		];
 		$this->db->insert('profile_comments',input_prep($data));
 
 		$this->msg_flash('Comment Added');
-		redirect(site_url('profile/#comments'));
+		redirect(site_url('student/profile/'.$profile_id.'#comments'));
 	}
 
 	public function school_admin()
