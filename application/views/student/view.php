@@ -173,7 +173,7 @@
 
         <button id="add" class="btn btn-primary btn-sm" ><span class="glyphicon glyphicon-thumbs-up" ></span> Approve</button>
         <button id="add" class="btn btn-info btn-sm" > <span class="glyphicon glyphicon-envelope" ></span> Message</button>
-        <button id="add" class="btn btn-success btn-sm" > <span class="glyphicon glyphicon-plus" ></span> Add</button>
+        <?=$requestBtn;?>
         <br><strong>158</strong> <span class="ad_txt"> Approved Dane's Profile.</span>
 
                 
@@ -409,4 +409,13 @@
 
 
       </div>
+
+      <script type="text/javascript">
+        $(document).on('click','.requestLink',function(){
+          var data = {user_1:$(this).attr('data-user-id')};
+          $.post(base_url + 'student/add_user',data,function(e){
+            console.log(e);
+          });
+        });
+      </script>
 

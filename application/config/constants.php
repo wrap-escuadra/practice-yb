@@ -17,6 +17,13 @@ define('UPLOAD_DIR', './assets/_uploads/');
 define('IMG_DIR', './assets/images/');
 define('IMG_SYS_DIR', './assets/images/system/');
 
+//userlink
+define('S_PENDING' , '0');
+define('S_APPROVED', '1');
+define('S_REJECTED', '2');
+define('S_BLOCKED' , '3');
+
+
 // defined('CONTROL_IMG_IR') OR define('SIDEPANEL_IMG_DIR', base_url('assets/images/head/sidepanel') + "/");
 /*
 |--------------------------------------------------------------------------

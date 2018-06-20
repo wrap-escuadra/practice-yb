@@ -222,6 +222,8 @@ class Student extends MY_Controller{
 
     public function profile($student_id){
         $this->load->model('comment_model');
+        $this->load->model('userlink_model','link');
+
         if($this->input->post()){
             $this->comment_model->save();
             $this->msg_flash('Comment Added');
@@ -234,13 +236,41 @@ class Student extends MY_Controller{
             'awards' => $this->student_model->getAwards($student_id),
             'grad_photos' => $this->student_model->getPictures($student_id),
             'comments' => $this->comment_model->fetch($student_id),
-            'primary_img' => $this->student_model->getPrimaryImg($student_id)
+            'primary_img' => $this->student_model->getPrimaryImg($student_id),
+            'requestBtn' => $this->requestButton($this->session->userdata('user_id'), $student['user_id']),
         ];
         
 
         $this->load->view('includes/head',$this->data);
         $this->load->view('student/view.php');
         $this->load->view('includes/footer');
+    }
+
+    private function requestButton($user_1,$user_2){
+        $this->load->model('userlink_model');
+        $data = $this->userlink_model->checkStatus($user_1,$user_2);
+        
+
+        if($data == NULL){
+            return '<button id="add" class="btn btn-success btn-sm requestLink" data-user-id="'.iencode($user_2).'" > 
+                  <span class="glyphicon glyphicon-plus" ></span> Add
+                </button>';
+        }elseif($data['stutus_code'] == S_PENDING){
+            return '<button class="btn btn-default disabled cancelPending" data-user-id"'.iencode($user_2).'" >Cancel</button> <button class="btn btn-default disabled" >'.$data['status'].'</button>';
+        }else{
+            return '<button class="btn btn-default disabled" >'.$data['status'].'</button>';
+        }
+    }
+
+    public function add_user(){
+        $this->load->model('userlink_model');
+        $data = [
+            'user_1' => $this->session->userdata('user_id') ,
+            'user_2' => idecode($this->input->post('user_1'))
+        ];
+        
+        $data['result'] = $this->userlink_model->add($data) ? TRUE : FALSE;
+        echo json_encode($data);
     }
 
 
