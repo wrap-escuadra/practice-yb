@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.7.22)
 # Database: practice
-# Generation Time: 2018-06-20 07:39:29 +0000
+# Generation Time: 2018-06-20 10:36:03 +0000
 # ************************************************************
 
 
@@ -160,6 +160,56 @@ VALUES
 	(4,'Student');
 
 /*!40000 ALTER TABLE `lu_user_roles` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+# Dump of table lu_userlink
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `lu_userlink`;
+
+CREATE TABLE `lu_userlink` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `user_1` bigint(20) DEFAULT NULL,
+  `user_2` bigint(20) DEFAULT NULL,
+  `status_code` smallint(6) DEFAULT '0',
+  `last_user` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idx_users` (`user_1`,`user_2`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+LOCK TABLES `lu_userlink` WRITE;
+/*!40000 ALTER TABLE `lu_userlink` DISABLE KEYS */;
+
+INSERT INTO `lu_userlink` (`id`, `user_1`, `user_2`, `status_code`, `last_user`)
+VALUES
+	(9,100,108,0,100);
+
+/*!40000 ALTER TABLE `lu_userlink` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+# Dump of table lu_userlink_status
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `lu_userlink_status`;
+
+CREATE TABLE `lu_userlink_status` (
+  `code` smallint(6) DEFAULT NULL,
+  `status` varchar(30) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+LOCK TABLES `lu_userlink_status` WRITE;
+/*!40000 ALTER TABLE `lu_userlink_status` DISABLE KEYS */;
+
+INSERT INTO `lu_userlink_status` (`code`, `status`)
+VALUES
+	(1,'Accepted'),
+	(2,'Declined'),
+	(3,'Blocked'),
+	(0,'Pending');
+
+/*!40000 ALTER TABLE `lu_userlink_status` ENABLE KEYS */;
 UNLOCK TABLES;
 
 
