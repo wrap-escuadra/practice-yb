@@ -32,7 +32,7 @@
    	{
 
    		$this->load->config($file_name); //file is found application/config 
-   		if(empty($this->config->item($config_name) ) ) die('config name not definded');
+   		// if(empty($this->config->item($config_name) ) ) die('config name not definded');
 		$this->form_validation->set_rules($this->config->item($config_name));
 
         if($this->input->is_ajax_request() ){
