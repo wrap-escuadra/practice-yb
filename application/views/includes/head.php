@@ -97,7 +97,7 @@
     <div class="collapse navbar-collapse" id="myNavbar">
 
       <ul class="nav navbar-nav navbar-right" >
-        <li><a href="<?=site_url('tempo/logout');?>" style="color:yellow" >-Tempo Logout-</a></li> 
+        <!-- <li><a href="<?=site_url('tempo/logout');?>" style="color:yellow" >-Tempo Logout-</a></li>  -->
         <li><a href="contact.php" >Contact</a></li>
         <li><a href="faq.php" >Help</a></li>
         <li><a href="about.php" >About</a></li>

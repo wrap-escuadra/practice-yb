@@ -94,7 +94,7 @@
 				<h1>Achievements & Awards</h1>
 				<div class="awards">
 					<?php 
-					if(@set_value()){
+					if(@set_value('awards')){
 					foreach(set_value('awards') as $aw){
 					    if($aw != '' ):
 					    ?>
